@@ -1,5 +1,6 @@
 {"installed_libraries": [
-  {"library": {"name": "Adafruit SSD1306", "version": "2.5.13"}},
-  {"library": {"name": "Adafruit GFX Library", "version": "1.12.1"}},
-  {"library": {"name": "DHT sensor library for ESPx", "version": "1.19"}}
+  {"library": {"name": "Adafruit SSD1306", "version": "2.5.17"}},
+  {"library": {"name": "Adafruit GFX Library", "version": "1.13.0"}},
+  {"library": {"name": "DHT sensor library", "version": "1.4.6"}},
+  {"library": {"name": "Adafruit Unified Sensor", "version": "1.1.15"}}
 ]}

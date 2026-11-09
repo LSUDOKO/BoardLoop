@@ -120,7 +120,7 @@ def test_libraries(env):
     assert r["ok"] and r["version"] == "1.0.0"
     assert "ESP32Servo" in call("mcu_project_info", project="demo1")["libraries"]
     assert call("mcu_libraries", action="install", name="x; rm -rf /")["error"] == "bad_args"
-    assert call("mcu_libraries", action="list")["count"] == 3
+    assert call("mcu_libraries", action="list")["count"] == 4
 
 
 def test_ports_and_upload(env):
