@@ -54,6 +54,8 @@ hardware. With a board, it also works on the real thing.
    - *cool room keeps the LED off*: `expected serial 'LED=OFF' not seen`
 3. Hermes flips `<` to `>` → `mcu_verify` → **verified 3/3**, with OLED screenshots of each test.
 
+![The buggy thermostat verified on Wokwi, with the real OLED screenshots](assets/verify-result.png)
+
 This exact sequence runs in CI against the fake tools
 ([`tests/test_tools.py::test_the_demo_loop_fixes_the_buggy_sample`](tests/test_tools.py)) and on
 the real toolchain ([`tests/test_real.py`](tests/test_real.py)).
