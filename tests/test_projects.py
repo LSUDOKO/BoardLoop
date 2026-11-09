@@ -156,3 +156,17 @@ def test_template_name_clash_and_unknown(tmp_path):
 def test_templates_match_examples():
     for tpl, ex in (("esp32-thermostat", "thermostat"), ("uno-blink", "blink-uno")):
         assert (projects.TEMPLATES_DIR / tpl / f"{ex}.ino").read_text() == (EXAMPLES / ex / f"{ex}.ino").read_text()
+
+
+def test_demo_template_keeps_the_planted_bugs(tmp_path):
+    p = projects.create_from_template(tmp_path, "thermostat-buggy", "demo-thermostat-buggy")
+    src = (p.path / "thermostat-buggy.ino").read_text()
+    assert "THRESHOLD_C = 30.0\n" in src and "< THRESHOLD_C" in src
+
+
+def test_blank_template_retarget(tmp_path):
+    p = projects.create_from_template(tmp_path, "s3", "esp32-blank", board="esp32s3")
+    assert p.fqbn == "esp32:esp32:esp32s3"
+    assert p.diagram["parts"][0]["type"] == "board-esp32-s3-devkitc-1"
+    with pytest.raises(ProjectError):
+        projects.create_from_template(tmp_path, "t2", "esp32-thermostat", board="uno")

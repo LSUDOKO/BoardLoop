@@ -23,7 +23,12 @@ MAX_LIST = 10
 MAX_STR = 200
 RUN_MS_RANGE = (100, 15_000)
 TEMPLATES_DIR = Path(__file__).resolve().parent / "templates"
-TEMPLATES = ("esp32-blank", "esp32-thermostat", "uno-blink")
+EXAMPLES_DIR = Path(__file__).resolve().parent / "examples"
+TEMPLATES = ("esp32-blank", "esp32-thermostat", "uno-blink", "demo-thermostat-buggy")
+# demo-* templates come straight from examples/ (the planted-bug demo project)
+TEMPLATE_DIRS = {"demo-thermostat-buggy": EXAMPLES_DIR / "thermostat-buggy"}
+# boards a template may be retargeted to (the blank one only: its sketch uses no pins)
+RETARGETABLE = {"esp32-blank": ("esp32", "esp32s3", "esp32c3")}
 PROJECT_FILES = ("diagram.json", "wokwi.toml", "boardloop.yaml")
 
 
@@ -304,21 +309,33 @@ def wokwi_toml(sketch: str, esp32: bool) -> str:
             f"firmware = 'build/{sketch}.{ext}'\nelf = 'build/{sketch}.elf'\n")
 
 
-def create_from_template(workspace: Path, name: Any, template: str) -> Project:
+def create_from_template(workspace: Path, name: Any, template: str, board: str = "") -> Project:
     """Copy a template into ``<workspace>/<name>`` and rename sketch, yaml and wokwi.toml."""
+    from .config import WOKWI_BOARD_PARTS
+
     validate_name(name)
     if template not in TEMPLATES:
         raise ProjectError("bad_args", f"Unknown template '{template}'.", f"Use one of {', '.join(TEMPLATES)}.")
+    if board and board not in RETARGETABLE.get(template, ()):
+        allowed = ", ".join(f"{t}: {'/'.join(b)}" for t, b in RETARGETABLE.items())
+        raise ProjectError("bad_args", f"Template '{template}' can't be switched to board '{board}'.",
+                           f"Omit board, or use {allowed}.")
     workspace.mkdir(parents=True, exist_ok=True)
     dest = safe_child(workspace, name)
     if dest.exists():
         raise ProjectError("bad_args", f"Project '{name}' already exists.", "Pick another name.")
-    src = TEMPLATES_DIR / template
+    src = TEMPLATE_DIRS.get(template, TEMPLATES_DIR / template)
     raw = yaml.safe_load((src / "boardloop.yaml").read_text(encoding="utf-8"))
     old_sketch = src / raw["sketch"]
     dest.mkdir()
     try:
-        shutil.copyfile(src / "diagram.json", dest / "diagram.json")
+        diagram = json.loads((src / "diagram.json").read_text(encoding="utf-8"))
+        if board:
+            raw["board"], raw["fqbn"] = board, BOARD_ALIASES[board]
+            for part in diagram["parts"]:
+                if part.get("id") == "esp":
+                    part["type"] = WOKWI_BOARD_PARTS[board]
+        (dest / "diagram.json").write_text(json.dumps(diagram, indent=2) + "\n", encoding="utf-8")
         shutil.copyfile(old_sketch, dest / f"{name}.ino")
         raw["name"], raw["sketch"] = name, f"{name}.ino"
         (dest / "boardloop.yaml").write_text(yaml.safe_dump(raw, sort_keys=False, allow_unicode=True),
