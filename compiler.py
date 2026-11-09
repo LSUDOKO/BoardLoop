@@ -70,6 +70,10 @@ def hint_for(message: str) -> str:
     m = message.lower()
     header = MISSING_HEADER_RE.search(message)
     if header:
+        if Path(header.group(1)).name == "DHTesp.h":
+            return ("DHTesp times out on every read with ESP32 core 3.x in Wokwi. Use #include <DHT.h> "
+                    "(DHT dht(PIN, DHT22); dht.begin(); dht.readTemperature()) and install \"DHT sensor library\" "
+                    "and \"Adafruit Unified Sensor\" with mcu_libraries.")
         lib = library_for_header(header.group(1))
         return (f"Library missing: install it with mcu_libraries action=install name=\"{lib}\" "
                 f"(or action=search name=\"{lib}\" if unsure).")

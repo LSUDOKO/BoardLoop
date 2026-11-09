@@ -38,7 +38,7 @@ def test_buggy_payload_says_fix_first_error(buggy):
 def test_missing_header_suggests_library():
     errors = compiler.parse_errors((GCC / "missing_header.txt").read_text())
     assert len(errors) == 1 and errors[0].line == 16
-    assert 'name="DHT sensor library for ESPx"' in errors[0].hint
+    assert "DHT sensor library" in errors[0].hint and "times out" in errors[0].hint
 
 
 def test_undeclared_with_suggestion():

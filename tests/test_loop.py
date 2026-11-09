@@ -98,3 +98,9 @@ def test_serial_suggestion(setup):
     p, _ = setup
     s = loop.suggestion(p, {"reason": "expected serial 'LED=ON' not seen", "serial_tail": ["T=35.0 LED=OFF"]})
     assert "'LED=ON' never appeared" in s and "T=35.0 LED=OFF" in s
+
+
+def test_dht_failure_suggestion(setup):
+    p, _ = setup
+    s = loop.suggestion(p, {"reason": "fail text seen: ERROR: DHT read failed"})
+    assert "2 s" in s and "DHTesp" in s

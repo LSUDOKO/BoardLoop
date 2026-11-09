@@ -94,6 +94,8 @@ tests:
 | LCD 1602 I2C | `LiquidCrystal I2C` | `LiquidCrystal_I2C.h` |
 
 Install with `mcu_libraries action=install name="..." project=<name>`.
+Don't use DHTesp (`DHT sensor library for ESPx`) on ESP32: with core 3.x it times out on every
+read in Wokwi. A DHT22 also needs 2 s between reads, including the first one after boot.
 
 ## Safety
 

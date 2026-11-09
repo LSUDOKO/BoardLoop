@@ -40,6 +40,9 @@ def suggestion(project: Project, failure: dict) -> str:
         tail = failure.get("serial_tail") or []
         seen = f" The firmware printed: {tail[-1]!r}." if tail else " Nothing was printed: check Serial.begin and the boot line."
         return f"'{m['text']}' never appeared on serial.{seen} Compare the logic that prints it with the test's sensor values."
+    if reason.startswith("fail text seen: ERROR: DHT"):
+        return ("The DHT sensor read failed. Wait 2 s before each read (also after boot), and on ESP32 use "
+                "Adafruit's DHT.h ('DHT sensor library'), not DHTesp, which times out in Wokwi.")
     if reason.startswith("fail text seen"):
         return "The firmware printed the project's fail_text: read that line in serial_tail and fix its cause."
     if reason.startswith("timed out"):
