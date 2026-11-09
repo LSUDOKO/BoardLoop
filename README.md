@@ -155,6 +155,7 @@ any `diagram.json`; sensor values are part attributes and live inputs are Wokwi 
 | `sim_timeout_ms` | 6000 | default for `mcu_simulate`, max 20000 |
 | `compile_timeout_s` | 300 | the first ESP32 build is slow |
 | `compile_budget` / `test_budget` | 3 / 5 | fix attempts before `needs_human` |
+| `parallel_tests` | 3 | Wokwi simulations run at once (1–5) |
 | `default_board`, `arduino_cli_path`, `wokwi_cli_path` | | |
 
 ## Privacy, safety and disclosures
@@ -219,7 +220,8 @@ with new code that the agent writes and tests.
   port. They have not yet been run against physical hardware for this release. Everything else
   is verified end to end on the real toolchain (arduino-cli 1.5.1, ESP32 core 3.3.12, wokwi-cli
   0.29.1; `tests/test_real.py`).
-- Tests run one after another, so an ESP32 verify takes minutes of wall time (see above).
+- An ESP32 verify still takes a few minutes of wall time: the first compile plus cloud simulation.
+  Tests run in parallel (`parallel_tests`, default 3); lower it if your Wokwi plan limits concurrency.
 
 ## Development
 
