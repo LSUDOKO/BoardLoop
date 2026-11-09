@@ -16,7 +16,6 @@ from __future__ import annotations
 
 import re
 
-import yaml
 
 BOOT_ALLOWANCE_MS = 3000
 PER_SERIAL_MS = 1000
@@ -51,6 +50,8 @@ def steps(test: dict, boot_text: str = "") -> list[dict]:
 
 def build(test: dict, boot_text: str = "") -> str:
     """Scenario YAML for ``test``. yaml.safe_dump quotes names with colons, quotes, etc."""
+    import yaml  # lazy: lets Hermes load the plugin before its deps are installed
+
     doc = {"name": test["name"], "version": 1, "author": "BoardLoop", "steps": steps(test, boot_text)}
     return yaml.safe_dump(doc, sort_keys=False, allow_unicode=True, width=1000)
 

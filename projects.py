@@ -12,7 +12,6 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-import yaml
 
 from .config import BOARD_ALIASES
 
@@ -236,6 +235,8 @@ def load_diagram(path: Path) -> dict:
 
 def load(workspace: Path, name: Any) -> Project:
     """Load and validate a project from the workspace."""
+    import yaml  # lazy: lets Hermes load the plugin before its deps are installed
+
     path = project_dir(workspace, name)
     try:
         raw = yaml.safe_load((path / "boardloop.yaml").read_text(encoding="utf-8")) or {}
@@ -267,6 +268,8 @@ def load(workspace: Path, name: Any) -> Project:
 
 def add_library(project: Project, library: str) -> None:
     """Append a library to ``boardloop.yaml`` (keeps the rest of the file as parsed YAML)."""
+    import yaml  # lazy: lets Hermes load the plugin before its deps are installed
+
     path = project.path / "boardloop.yaml"
     raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     libs = list(raw.get("libraries") or [])
@@ -311,6 +314,8 @@ def wokwi_toml(sketch: str, esp32: bool) -> str:
 
 def create_from_template(workspace: Path, name: Any, template: str, board: str = "") -> Project:
     """Copy a template into ``<workspace>/<name>`` and rename sketch, yaml and wokwi.toml."""
+    import yaml  # lazy: lets Hermes load the plugin before its deps are installed
+
     from .config import WOKWI_BOARD_PARTS
 
     validate_name(name)
