@@ -62,6 +62,9 @@ def main() -> int:
     up = call("mcu_upload", project="thermostat-buggy", port="/dev/ttyUSB0")
     assert not up.get("ok") and "flashed" not in up, up
     print("OK: mcu_upload was not run without approval")
+    rt = call("mcu_test", project="thermostat-buggy", target="real", port="/dev/ttyUSB0")
+    assert "BLOCKED" in str(rt.get("error", "")), rt
+    print("OK: a real-board mcu_test was not run without approval")
     return 0
 
 
