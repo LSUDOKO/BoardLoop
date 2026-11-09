@@ -1,6 +1,6 @@
 """Tool handlers. Each one validates its args, calls the pure modules and returns a JSON string.
 
-Rules (see CLAUDE.md): handlers never raise, outputs stay small, the Wokwi token never appears in
+Rules (see SECURITY.md): handlers never raise, outputs stay small, the Wokwi token never appears in
 a result, and every external program runs through ``procs.run`` with a timeout.
 """
 from __future__ import annotations

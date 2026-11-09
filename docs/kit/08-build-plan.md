@@ -5,7 +5,6 @@
 # 08: Build plan (Nov 9 evening → Nov 11, 9 PM IST)
 
 Deadline Nov 12, 3:30 AM IST. Our target is 9 PM IST on Nov 11, leaving 6.5 hours of buffer.
-Prompts for each phase are in `09-claude-code-prompts.md`.
 
 | When (IST) | Phase | Done when |
 |---|---|---|
@@ -30,7 +29,7 @@ Prompts for each phase are in `09-claude-code-prompts.md`.
   thermostat sample.
 
 ## Phase 0: Orientation (20 min)
-Claude reads the kit, checks tools, lists the files and the VERIFY answers, and confirms the plan.
+Read the kit, check tools, list the files and the VERIFY answers, and confirm the plan.
 
 ## Phase 1: Core modules without Hermes (3–4 h)
 `config.py`, `procs.py`, `projects.py` (yaml load/validate, templates, path safety, parts/wiring),

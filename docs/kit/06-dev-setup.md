@@ -15,16 +15,8 @@ native Windows**, since WSL needs extra USB passthrough).
 1. Install from https://hermes-agent.nousresearch.com and run `hermes` once (pick a model).
 2. `hermes --version`: use this as the `requires_hermes` floor.
 3. `hermes plugins --help`: check that `doctor`, `validate`, `list` and `enable` exist.
-4. Running Hermes on your Claude subscription? Use only the official "Claude Subscription" provider
-   plugin, which drives the real `claude` CLI. Claude Code and Hermes then share the same usage limits.
 
-## 3. Claude Code
-Docs: https://code.claude.com/docs/en/overview
-- Install with the official installer for your OS from the docs page above.
-- Or `brew install --cask claude-code` / `winget install Anthropic.ClaudeCode`
-Open a new terminal: `claude --version`. Log in on first run.
-
-## 4. arduino-cli + ESP32 core + libraries
+## 3. arduino-cli + ESP32 core + libraries
 Install arduino-cli (docs: https://arduino.github.io/arduino-cli/latest/installation/):
 - macOS: `brew install arduino-cli`
 - Linux / WSL: download the Linux release archive from https://github.com/arduino/arduino-cli/releases/latest
@@ -47,7 +39,7 @@ To avoid repeating `--additional-urls`:
 The ESP32 core is a large download (hundreds of MB) and the **first ESP32 compile takes 1–3
 minutes**; later ones are much faster.
 
-## 5. wokwi-cli + token
+## 4. wokwi-cli + token
 Docs: https://docs.wokwi.com/wokwi-ci/getting-started
 - Install with the official installer for your OS from the getting-started page above
   (it publishes one script for Linux/macOS and one for Windows PowerShell).
@@ -61,7 +53,7 @@ Docs: https://docs.wokwi.com/wokwi-ci/getting-started
   reads it from there with `get_secret`.
 - Free plan: **50 simulated minutes per rolling 30 days** (Hobby 200, Hobby+ 500, Pro 2000).
 
-## 6. Toolchain smoke test (must pass before Phase 1)
+## 5. Toolchain smoke test (must pass before Phase 1)
 ```bash
 cd examples/thermostat
 arduino-cli compile --fqbn esp32:esp32:esp32 --output-dir build .
@@ -75,10 +67,10 @@ Then the scenario test: set `dht1` temperature to `"35"` in `diagram.json`, run
 exists and shows the OLED. Then set it back to `"24"`.
 
 Also try the deliberate failure: `wokwi-cli . --timeout 4000 --expect-text "NEVER"` → note the exit
-code (expected 42) and the message. **Copy these outputs into `tests/fixtures/wokwi/`** so Claude
-builds the result parser against real output (Prompt 1b).
+code (expected 42) and the message. **Copy these outputs into `tests/fixtures/wokwi/`** so the
+parser is built the result parser against real output (Prompt 1b).
 
-## 7. Real board (optional, P1)
+## 6. Real board (optional, P1)
 - ESP32 DevKit boards use a CP210x or CH340 USB chip. Install the driver if the port doesn't show:
   - CP210x: Silicon Labs "CP210x USB to UART Bridge VCP" driver
   - CH340: WCH "CH341SER" driver
@@ -87,7 +79,7 @@ builds the result parser against real output (Prompt 1b).
 - Test: `arduino-cli upload -p <port> --fqbn esp32:esp32:esp32 --input-dir build .` inside
   `examples/thermostat`. Some boards need the **BOOT** button held when "Connecting…" appears.
 
-## 8. Load your working copy in Hermes
+## 7. Load your working copy in Hermes
 ```bash
 ln -s "$(pwd)" ~/.hermes/plugins/boardloop        # macOS/Linux/WSL; on Windows copy the folder instead
 hermes plugins enable boardloop

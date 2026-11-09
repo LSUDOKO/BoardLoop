@@ -62,7 +62,7 @@ config_schema:
   test_budget:         {type: int,  default: 5, label: "Behaviour fix attempts"}
   arduino_cli_path:    {type: str,  default: "", label: "arduino-cli path (optional)"}
   wokwi_cli_path:      {type: str,  default: "", label: "wokwi-cli path (optional)"}
-external_dependencies:              # VERIFY key name; the official claude-subscription plugin declares one
+external_dependencies:              # VERIFY key name; an official provider plugin declares one
   - arduino-cli
   - wokwi-cli
 ```
