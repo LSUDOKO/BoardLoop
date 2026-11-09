@@ -130,3 +130,29 @@ def test_import_folder_skips_build_outputs(tmp_path):
     ws = tmp_path / "ws"
     p = projects.import_folder(ws, src, "thermostat")
     assert not (p.path / "build").exists()
+
+
+@pytest.mark.parametrize("template,board", [
+    ("esp32-thermostat", "esp32"), ("uno-blink", "uno"), ("esp32-blank", "esp32")])
+def test_templates_create_consistent_projects(tmp_path, template, board):
+    p = projects.create_from_template(tmp_path, "demo1", template)
+    files = sorted(f.name for f in p.path.iterdir())
+    assert files == ["boardloop.yaml", "demo1.ino", "diagram.json", "wokwi.toml"]
+    assert p.name == "demo1" and p.sketch == "demo1.ino" and p.board == board
+    toml = (p.path / "wokwi.toml").read_text()
+    assert f"'{p.firmware_rel}'" in toml and "build/demo1.ino.elf" in toml
+    assert p.tests, "every template ships at least one passing test"
+
+
+def test_template_name_clash_and_unknown(tmp_path):
+    projects.create_from_template(tmp_path, "demo1", "esp32-blank")
+    with pytest.raises(ProjectError):
+        projects.create_from_template(tmp_path, "demo1", "esp32-blank")
+    with pytest.raises(ProjectError):
+        projects.create_from_template(tmp_path, "demo2", "toaster")
+    assert not (tmp_path / "demo2").exists()
+
+
+def test_templates_match_examples():
+    for tpl, ex in (("esp32-thermostat", "thermostat"), ("uno-blink", "blink-uno")):
+        assert (projects.TEMPLATES_DIR / tpl / f"{ex}.ino").read_text() == (EXAMPLES / ex / f"{ex}.ino").read_text()

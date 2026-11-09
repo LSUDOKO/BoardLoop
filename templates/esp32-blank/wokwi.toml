@@ -1,0 +1,4 @@
+[wokwi]
+version = 1
+firmware = 'build/blank.ino.bin'
+elf = 'build/blank.ino.elf'

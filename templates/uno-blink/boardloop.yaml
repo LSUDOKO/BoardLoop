@@ -1,0 +1,20 @@
+name: blink-uno
+board: uno
+fqbn: arduino:avr:uno
+sketch: blink-uno.ino
+libraries: []
+boot_text: "BOOT OK"
+fail_text: "ERROR:"
+
+tests:
+  - name: LED blinks on its own
+    run_ms: 2500
+    expect_serial: ["LED=ON", "LED=OFF"]
+
+  - name: holding the button keeps the LED on
+    controls:                      # Wokwi set-control steps (pushbutton supports automation)
+      - { part: btn1, control: pressed, value: 1 }   # VERIFY control name in Wokwi pushbutton docs
+    run_ms: 1500
+    expect_serial: ["BUTTON=DOWN"]
+    expect_pins:
+      - { part: led1, pin: A, value: 1 }

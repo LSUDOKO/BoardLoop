@@ -1,0 +1,12 @@
+# BoardLoop project file. Add parts to diagram.json, code to the sketch, and tests below.
+name: blank
+board: esp32
+fqbn: esp32:esp32:esp32
+sketch: blank.ino
+libraries: []
+boot_text: "BOOT OK"
+fail_text: "ERROR:"
+tests:
+  - name: firmware boots and runs its loop
+    run_ms: 1000
+    expect_serial: ["TICK="]
