@@ -1,0 +1,5 @@
+{"detected_ports": [
+  {"port": {"address": "/dev/ttyUSB0", "protocol": "serial", "label": "/dev/ttyUSB0"},
+   "matching_boards": [{"name": "ESP32 Dev Module", "fqbn": "esp32:esp32:esp32"}]},
+  {"port": {"address": "/dev/ttyS0", "protocol": "serial", "label": "/dev/ttyS0"}}
+]}

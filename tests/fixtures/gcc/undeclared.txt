@@ -1,0 +1,8 @@
+/tmp/proj/blink/blink.ino: In function 'void loop()':
+/tmp/proj/blink/blink.ino:12:16: error: 'LED_PN' was not declared in this scope; did you mean 'LED_PIN'?
+   12 |   digitalWrite(LED_PN, HIGH);
+      |                ^~~~~~
+      |                LED_PIN
+exit status 1
+
+Compilation error: 'LED_PN' was not declared in this scope; did you mean 'LED_PIN'?

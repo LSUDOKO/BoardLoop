@@ -1,0 +1,4 @@
+{"platforms": [
+  {"id": "esp32:esp32", "installed_version": "3.3.2"},
+  {"id": "arduino:avr", "installed_version": "1.8.6"}
+]}

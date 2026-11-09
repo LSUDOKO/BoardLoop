@@ -1,0 +1,5 @@
+{"libraries": [
+  {"name": "DHT sensor library for ESPx", "latest": {"version": "1.19", "sentence": "Arduino ESP library for DHT11, DHT22, etc Temperature & Humidity Sensors"}},
+  {"name": "DHT sensor library", "latest": {"version": "1.4.6", "sentence": "Arduino library for DHT11, DHT22, etc Temp & Humidity Sensors"}},
+  {"name": "DHT kxn", "latest": {"version": "3.4.4", "sentence": "Arduino library for DHT11, DHT22 Temperature & Humidity Sensors"}}
+]}

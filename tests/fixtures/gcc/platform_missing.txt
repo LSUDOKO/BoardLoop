@@ -1,0 +1,2 @@
+Error during build: Platform 'esp32:esp32' not found: platform not installed
+Try running `arduino-cli core install esp32:esp32`

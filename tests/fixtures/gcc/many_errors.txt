@@ -1,0 +1,15 @@
+/tmp/p/x/x.ino:11:5: error: 'v1' was not declared in this scope
+/tmp/p/x/x.ino:12:5: error: 'v2' was not declared in this scope
+/tmp/p/x/x.ino:13:5: error: 'v3' was not declared in this scope
+/tmp/p/x/x.ino:14:5: error: 'v4' was not declared in this scope
+/tmp/p/x/x.ino:15:5: error: 'v5' was not declared in this scope
+/tmp/p/x/x.ino:16:5: error: 'v6' was not declared in this scope
+/tmp/p/x/x.ino:17:5: error: 'v7' was not declared in this scope
+/tmp/p/x/x.ino:18:5: error: 'v8' was not declared in this scope
+/tmp/p/x/x.ino:19:5: error: 'v9' was not declared in this scope
+/tmp/p/x/x.ino:20:5: error: 'v10' was not declared in this scope
+/tmp/p/x/x.ino:21:5: error: 'v11' was not declared in this scope
+/tmp/p/x/x.ino:22:5: error: 'v12' was not declared in this scope
+/tmp/p/x/x.ino:23:5: error: 'v13' was not declared in this scope
+/tmp/p/x/x.ino:24:5: error: 'v14' was not declared in this scope
+exit status 1

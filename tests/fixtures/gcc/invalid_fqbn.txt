@@ -1,0 +1,1 @@
+Error during build: Invalid FQBN: not an FQBN: esp32

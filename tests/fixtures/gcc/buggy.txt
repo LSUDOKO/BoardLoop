@@ -1,0 +1,14 @@
+/home/maker/.hermes/plugin-data/boardloop/projects/thermostat-buggy/thermostat-buggy.ino:24:1: error: expected ',' or ';' before 'Adafruit_SSD1306'
+   24 | Adafruit_SSD1306 display(128, 64, &Wire, -1);
+      | ^~~~~~~~~~~~~~~~
+/home/maker/.hermes/plugin-data/boardloop/projects/thermostat-buggy/thermostat-buggy.ino: In function 'void showReading(float, float, bool)':
+/home/maker/.hermes/plugin-data/boardloop/projects/thermostat-buggy/thermostat-buggy.ino:28:3: error: 'display' was not declared in this scope
+   28 |   display.clearDisplay();
+      |   ^~~~~~~
+/home/maker/.hermes/plugin-data/boardloop/projects/thermostat-buggy/thermostat-buggy.ino: In function 'void setup()':
+/home/maker/.hermes/plugin-data/boardloop/projects/thermostat-buggy/thermostat-buggy.ino:54:8: error: 'display' was not declared in this scope
+   54 |   if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+      |        ^~~~~~~
+exit status 1
+
+Compilation error: expected ',' or ';' before 'Adafruit_SSD1306'
