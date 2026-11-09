@@ -47,6 +47,12 @@ A prompt can only *suggest* firmware. BoardLoop **executes** it:
   ([`test_tools.py::test_internal_errors_become_json`](../tests/test_tools.py)).
 - **Infrastructure failures don't cost attempts**: missing token or core → `blocked`, not a fix
   attempt ([`test_loop.py::test_infra_errors_do_not_spend_attempts`](../tests/test_loop.py)).
+- **Exercised through Hermes itself:** [`scripts/hermes_e2e.py`](../scripts/hermes_e2e.py) loads the
+  plugin with Hermes's plugin manager in a throwaway `HERMES_HOME` and drives the buggy sample to
+  `verified` through `model_tools.handle_function_call`, the same path a model's tool call takes.
+  It then shows that `mcu_upload` with nobody to approve it is **blocked fail-closed** by Hermes,
+  with BoardLoop's approval message (*Flash "thermostat-buggy" (esp32:esp32:esp32, 2 KB) to
+  /dev/ttyUSB0. Tests: 3/3 tests passed in simulation.*).
 - **Catalog compliance is tested**: declared tools = registered tools = `TOOLS` table
   ([`test_registration.py`](../tests/test_registration.py)); `hermes plugins validate` passes with a
   `safe` security scan.

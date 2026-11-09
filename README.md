@@ -233,6 +233,7 @@ python -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
 BOARDLOOP_REAL=1 .venv/bin/pytest -m real        # real arduino-cli + Wokwi (uses minutes)
 hermes plugins doctor . --ci && hermes plugins validate . --install-deps
 python scripts/check_repo.py                     # no binaries / tokens tracked
+<hermes-venv>/bin/python scripts/hermes_e2e.py ~/.hermes/hermes-agent   # through Hermes's own dispatcher
 ```
 
 The fakes in [`tests/fakes/`](tests/fakes) reproduce the real tools' exit codes and messages,
