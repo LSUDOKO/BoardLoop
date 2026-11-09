@@ -25,3 +25,15 @@ Other facts used by BoardLoop:
 - `delay` values need units (`3000ms`); a bare number is rejected at validation.
 - Unknown step keys fail validation before the simulation starts (`Invalid scenario step key`).
 - Firmware missing: stderr `Error: firmware file not found: <path>.`, exit 1.
+
+## Found on the real toolchain (2026-11-09: arduino-cli 1.5.1, esp32 core 3.3.12, wokwi-cli 0.29.1)
+
+- **`wait-serial` swallows the newline after the matched text** (its scenario log line takes its
+  place, `TestScenario.processSerialBytes`). The serial log then has glued lines such as
+  `BOOT OKERROR: …`. `simulator.serial_tail` splits them again after each waited-for text, and the
+  fake CLI reproduces the behaviour.
+- **`DHT sensor library for ESPx` (DHTesp 1.19) times out on every read** with ESP32 core 3.3.x in
+  Wokwi (`ERROR: DHT TIMEOUT`, even after the 2 s sampling period). Adafruit's `DHT sensor library`
+  reads correctly, so the examples and templates use it.
+- **ESP32 simulation runs slower than real time in the cloud:** 8–9 s of simulated time took
+  40–90 s of wall time. The wall-clock guard is 10× the simulated time plus 90 s.
