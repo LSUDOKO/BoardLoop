@@ -1,0 +1,5 @@
+[wokwi]
+version = 1
+# Produced by: arduino-cli compile --fqbn arduino:avr:uno --output-dir build .
+firmware = 'build/blink-uno.ino.hex'
+elf = 'build/blink-uno.ino.elf'

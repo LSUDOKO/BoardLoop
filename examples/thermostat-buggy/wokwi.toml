@@ -1,0 +1,5 @@
+[wokwi]
+version = 1
+# Produced by: arduino-cli compile --fqbn esp32:esp32:esp32 --output-dir build .
+firmware = 'build/thermostat-buggy.ino.bin'
+elf = 'build/thermostat-buggy.ino.elf'

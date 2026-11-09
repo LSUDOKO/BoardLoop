@@ -1,0 +1,19 @@
+# Build outputs and binaries (catalog rule 17: never commit these)
+build/
+*.bin
+*.elf
+*.hex
+*.map
+__pycache__/
+*.pyc
+
+# Local state and secrets
+.env
+*.db
+.boardloop-runs/
+screenshots/
+.pytest_cache/
+.venv/
+.coverage
+htmlcov/
+*.egg-info/

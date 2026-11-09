@@ -1,0 +1,36 @@
+# BoardLoop project file (format defined in docs/04-architecture.md)
+name: thermostat-buggy
+board: esp32                       # alias, resolved to the FQBN below
+fqbn: esp32:esp32:esp32
+sketch: thermostat-buggy.ino
+libraries:                         # arduino-cli library names
+  - "Adafruit SSD1306"
+  - "Adafruit GFX Library"
+  - "DHT sensor library for ESPx"
+boot_text: "BOOT OK"               # printed once setup() finishes
+fail_text: "ERROR:"                # any line containing this fails a run
+
+tests:
+  - name: hot room turns the LED on
+    sensors:
+      dht1: { temperature: 35, humidity: 50 }
+    run_ms: 3000
+    expect_serial: ["LED=ON"]
+    expect_pins:
+      - { part: led1, pin: A, value: 1 }
+    screenshot: oled1
+
+  - name: cool room keeps the LED off
+    sensors:
+      dht1: { temperature: 20, humidity: 45 }
+    run_ms: 3000
+    expect_serial: ["LED=OFF"]
+    expect_pins:
+      - { part: led1, pin: A, value: 0 }
+    screenshot: oled1
+
+  - name: exactly 30 C is not too hot
+    sensors:
+      dht1: { temperature: 30, humidity: 40 }
+    run_ms: 3000
+    expect_serial: ["LED=OFF"]
