@@ -53,3 +53,11 @@ def test_port_pattern(port, ok):
 def test_expectations():
     assert serialmon.check_expectations(["BOOT OK", "LED=ON"], ["BOOT", "LED=ON"]) == (True, "all expected lines seen")
     assert serialmon.check_expectations(["LED=ON"], ["BOOT"])[0] is False
+
+
+def test_reset_pulses_rts_and_stops_when_all_seen():
+    port = FakePort([b"rst:0x1\nBOOT OK\n", b"T=24.0 LED=OFF\n", b"never\n"])
+    lines = serialmon.read("/dev/ttyUSB0", 115200, seconds=5, opener=port, reset=True,
+                           until_all=["BOOT OK", "LED=OFF"])
+    assert lines == ["rst:0x1", "BOOT OK", "T=24.0 LED=OFF"]
+    assert port.rts is False and port.dtr is False

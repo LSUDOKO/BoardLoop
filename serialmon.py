@@ -42,13 +42,24 @@ def check_expectations(lines: list[str], expect: list[str]) -> tuple[bool, str]:
 
 
 def read(port: str, baud: int = 115200, seconds: float = 5, until_text: str = "",
-         opener=None) -> list[str]:
-    """Read lines for up to ``seconds`` (max 30), stopping early at ``until_text``."""
+         opener=None, reset: bool = False, until_all: list[str] | None = None) -> list[str]:
+    """Read lines for up to ``seconds`` (max 30), stopping early at ``until_text`` or once every
+    text in ``until_all`` has appeared in order.
+
+    ``reset=True`` restarts the board right after the port opens so its boot output is captured:
+    RTS pulses EN on ESP32 DevKits (DTR held low keeps GPIO0 high, a normal boot); Arduino Unos
+    already reset when the port opens.
+    """
     seconds = max(0.5, min(float(seconds), MAX_SECONDS))
     open_ = opener or _serial().Serial
     lines: list[str] = []
     deadline = time.monotonic() + seconds
     with open_(port, baud, timeout=0.2) as conn:
+        if reset:
+            conn.dtr = False
+            conn.rts = True
+            time.sleep(0.1)
+            conn.rts = False
         buf = b""
         while time.monotonic() < deadline:
             chunk = conn.read(512)
@@ -61,6 +72,8 @@ def read(port: str, baud: int = 115200, seconds: float = 5, until_text: str = ""
                 if line.strip():
                     lines.append(line[:200])
             if until_text and any(until_text in ln for ln in lines):
+                break
+            if until_all and check_expectations(lines, until_all)[0]:
                 break
         if buf.strip():
             lines.append(buf.decode("utf-8", errors="replace").rstrip("\r")[:200])
