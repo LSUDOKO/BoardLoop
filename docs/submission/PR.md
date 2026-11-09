@@ -6,7 +6,7 @@ Hermes writes ESP32/Arduino code, compiles it with arduino-cli, tests it in the 
 (sets sensor values, presses buttons, checks pins, serial output and OLED screenshots), fixes it
 within bounded attempts, and flashes real boards with approval. Hermes Agent Plugin Hackathon entry.
 
-Repo: https://github.com/LSUDOKO/BoardLoop (pinned at `629c098fead3b8b75c82371d94402ccd754be555`) · Demo: <X link>
+Repo: https://github.com/LSUDOKO/BoardLoop (pinned at `b234f295187d331eb5d7b27f57df2bfa4ccc7cbf`) · Demo: <X link>
 
 ### Hermes surfaces used
 - `register_tool` (toolset `boardloop`): mcu_doctor, mcu_project_new, mcu_project_info, mcu_libraries,
@@ -15,7 +15,9 @@ Repo: https://github.com/LSUDOKO/BoardLoop (pinned at `629c098fead3b8b75c82371d9
 - `pre_tool_call`: approval for `mcu_upload`, `mcu_serial_write` (escalate only; no auto-approve)
 - `register_command("mcu")`, `register_skill("boardloop")`
 - `config_schema` (Wokwi token as a `secret`, read with `get_secret`), `plugin_db`, `plugin_data_dir`
-- Desktop half (`desktop/plugin.js`): one `TOOL_MEDIA_RENDERER_AREA` contribution for its own tools' screenshots
+- `pre_tool_call` also gates `mcu_test target="real"` (it flashes the board first)
+- Desktop half (`desktop/plugin.js`): a `panes` Workbench and a `TOOL_MEDIA_RENDERER_AREA` card for its own tools' screenshots
+- Dashboard backend (`dashboard/plugin_api.py`): read-only routes over the plugin's own data folder; `broadcast_plugin_event` for `results.updated`
 
 ### Disclosures
 - Runs user-installed `arduino-cli` and `wokwi-cli` as subprocesses (no shell, timeouts, process-group kill).
@@ -30,3 +32,6 @@ generation): BoardLoop compiles, simulates, tests and flashes.
 
 ### Validation
 `hermes plugins validate . --install-deps` passes at the pinned commit; security scan: `safe`.
+The one warning (private core imports) comes from `scripts/hermes_e2e.py`, a dev-only script that
+drives Hermes's own dispatcher in a throwaway HERMES_HOME for end-to-end checks; the plugin's
+runtime code uses only documented surfaces.
