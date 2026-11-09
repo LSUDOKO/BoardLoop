@@ -12,6 +12,13 @@ def test_hardware_tools_need_approval():
         assert d["action"] == "approve" and d["rule_key"] == name and d["message"]
 
 
+def test_real_board_test_needs_approval_sim_does_not():
+    d = approvals.on_pre_tool_call(tool_name="mcu_test", args={"project": "x", "target": "real", "port": "COM3"})
+    assert d["action"] == "approve" and d["rule_key"] == "mcu_test:real" and "serial output" in d["message"]
+    assert approvals.on_pre_tool_call(tool_name="mcu_test", args={"project": "x"}) is None
+    assert approvals.on_pre_tool_call(tool_name="mcu_test", args={"project": "x", "target": "sim"}) is None
+
+
 def test_everything_else_passes_through():
     for name, _, _ in tools.TOOLS:
         if name not in approvals.NEEDS_APPROVAL:

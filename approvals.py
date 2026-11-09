@@ -39,15 +39,25 @@ def _upload_message(args: dict) -> str:
 def describe(tool_name: str, args: dict) -> str:
     if tool_name == "mcu_upload":
         return _upload_message(args)
+    if tool_name == "mcu_test":
+        return _upload_message(args) + " Then reset the board and read its serial output to run the tests."
     if tool_name == "mcu_serial_write":
         text = str(args.get("text", ""))[:200]
         return f'Send "{text}" to the board on {str(args.get("port", ""))[:64]} (serial write).'
     return f"BoardLoop wants to run {tool_name}."
 
 
+def needs_approval(tool_name: str, args: dict) -> bool:
+    """Hardware writes always; mcu_test only when it targets a real board (it flashes first)."""
+    if tool_name in NEEDS_APPROVAL:
+        return True
+    return tool_name == "mcu_test" and str(args.get("target", "")).strip().lower() == "real"
+
+
 def on_pre_tool_call(tool_name: str = "", args: dict | None = None, task_id: str = "", **kwargs) -> dict | None:
     """Escalate hardware-touching BoardLoop tools to the human approval gate."""
-    if tool_name not in NEEDS_APPROVAL:
+    args = args if isinstance(args, dict) else {}
+    if not needs_approval(tool_name, args):
         return None
-    return {"action": "approve", "message": describe(tool_name, args if isinstance(args, dict) else {}),
-            "rule_key": tool_name}
+    rule = "mcu_test:real" if tool_name == "mcu_test" else tool_name
+    return {"action": "approve", "message": describe(tool_name, args), "rule_key": rule}
