@@ -79,7 +79,8 @@ the real toolchain ([`tests/test_real.py`](tests/test_real.py)).
 
 Also: the **`/mcu`** command (status, projects, history, doctor), a bundled **skill** that teaches
 the agent the workflow and how to write tests ([`skills/boardloop/SKILL.md`](skills/boardloop/SKILL.md)),
-and a **Wokwi minutes meter**.
+a **Wokwi minutes meter**, and a **Hermes Desktop card** ([`desktop/plugin.js`](desktop/plugin.js)) that
+shows each simulated OLED screenshot in chat with its test name, PASS/FAIL and reason.
 
 ## Quick start
 
