@@ -82,7 +82,9 @@ the real toolchain ([`tests/test_real.py`](tests/test_real.py)).
 Also: the **`/mcu`** command (status, projects, history, doctor), a bundled **skill** that teaches
 the agent the workflow and how to write tests ([`skills/boardloop/SKILL.md`](skills/boardloop/SKILL.md)),
 a **Wokwi minutes meter**, and a **Hermes Desktop card** ([`desktop/plugin.js`](desktop/plugin.js)) that
-shows each simulated OLED screenshot in chat with its test name, PASS/FAIL and reason.
+shows each simulated OLED screenshot in chat with its test name, PASS/FAIL and reason. It passes Hermes's
+`desktop surface` check but has not yet been tried in the Desktop app; on any surprise it falls
+back to the built-in image viewer.
 
 ## Quick start
 
