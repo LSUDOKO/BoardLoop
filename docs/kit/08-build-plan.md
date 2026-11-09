@@ -1,3 +1,7 @@
+> **Original build plan (Nov 9, 2026), kept for history.** Where it differs from the code, the
+> README, `docs/ARCHITECTURE.md` and `tests/fixtures/wokwi/NOTES.md` are authoritative (for
+> example, the examples now use Adafruit's DHT library, and the manifest uses `python_dependencies`).
+
 # 08: Build plan (Nov 9 evening → Nov 11, 9 PM IST)
 
 Deadline Nov 12, 3:30 AM IST. Our target is 9 PM IST on Nov 11, leaving 6.5 hours of buffer.

@@ -1,3 +1,7 @@
+> **Original build plan (Nov 9, 2026), kept for history.** Where it differs from the code, the
+> README, `docs/ARCHITECTURE.md` and `tests/fixtures/wokwi/NOTES.md` are authoritative (for
+> example, the examples now use Adafruit's DHT library, and the manifest uses `python_dependencies`).
+
 # 09: Claude Code prompts (copy and paste, one per phase)
 
 Run `claude` in the repo root (`CLAUDE.md` loads automatically). After each phase: check the

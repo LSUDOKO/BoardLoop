@@ -23,18 +23,18 @@ Simulation uses the **Wokwi CLI** (`wokwi-cli`, cloud simulator, needs `WOKWI_CL
 Compiling and flashing use **arduino-cli**. Both are installed by the user, never bundled.
 
 ## Read these before working
-- `docs/03-features.md`: features, priorities (P0/P1/P2), acceptance criteria
-- `docs/04-architecture.md`: **source of truth** for repo layout, tool specs, project file
+- `docs/kit/03-features.md`: features, priorities (P0/P1/P2), acceptance criteria
+- `docs/kit/04-architecture.md`: **source of truth** for repo layout, tool specs, project file
   format, test runner, data model, errors
-- `docs/05-hermes-plugin-reference.md`: Hermes plugin APIs + catalog admission rules (**must follow**)
-- `docs/07-wokwi-guide.md`: verified Wokwi formats and flags; items marked VERIFY
-- `docs/10-security-and-disclosure.md`: safety rules (**non-negotiable**)
-- `docs/11-testing.md`: how to test without Wokwi/arduino-cli (fakes) and with them
+- `docs/kit/05-hermes-plugin-reference.md`: Hermes plugin APIs + catalog admission rules (**must follow**)
+- `docs/kit/07-wokwi-guide.md`: verified Wokwi formats and flags; items marked VERIFY
+- `docs/kit/10-security-and-disclosure.md`: safety rules (**non-negotiable**)
+- `docs/kit/11-testing.md`: how to test without Wokwi/arduino-cli (fakes) and with them
 - `examples/`: working sample projects (thermostat, thermostat-buggy, blink-uno). Use them as
   fixtures and as templates.
 
 ## Non-negotiable rules
-1. **Hermes catalog rules** (docs/05): public plugin surfaces only (no monkey-patching), declared
+1. **Hermes catalog rules** (docs/kit/05): public plugin surfaces only (no monkey-patching), declared
    `provides_tools`/`provides_hooks` must equal what `register()` registers, no self-updating code,
    no binaries/.pyc/archives in the repo, secrets only via `agent.secret_scope.get_secret()`,
    never read `.env`/`auth.json` yourself, respect approvals, fail cleanly when unattended,
@@ -58,7 +58,7 @@ Compiling and flashing use **arduino-cli**. Both are installed by the user, neve
    boards). Both with floor and upper bound (e.g. `"pyyaml>=6.0,<7"`, `"pyserial>=3.5,<4"`).
    Import `serial` lazily so the plugin loads without it.
 9. **Everything must be testable without network or tools.** Use the fake `wokwi-cli` and fake
-   `arduino-cli` scripts in `tests/fakes/` (see docs/11). Real-tool tests are marked
+   `arduino-cli` scripts in `tests/fakes/` (see docs/kit/11). Real-tool tests are marked
    `@pytest.mark.real` and skipped unless `BOARDLOOP_REAL=1`.
 10. **VERIFY items:** if a doc marks something VERIFY, check it (run `--help`, read the docs URL given,
     or run the sample project) before relying on it. If you can't, implement defensively and tell
@@ -88,7 +88,7 @@ wokwi-cli . --timeout 5000 --expect-text "BOOT OK"
 - Commit after each phase with a clear message.
 
 ## Definition of done
-- P0 features (docs/03) work end to end on Wokwi with the thermostat sample, and the buggy sample
+- P0 features (docs/kit/03) work end to end on Wokwi with the thermostat sample, and the buggy sample
   is fixed by Hermes through the loop.
 - `pytest` green; `hermes plugins doctor . --ci` green; `hermes plugins validate . --install-deps`
   green, warnings reviewed.

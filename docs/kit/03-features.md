@@ -1,3 +1,7 @@
+> **Original build plan (Nov 9, 2026), kept for history.** Where it differs from the code, the
+> README, `docs/ARCHITECTURE.md` and `tests/fixtures/wokwi/NOTES.md` are authoritative (for
+> example, the examples now use Adafruit's DHT library, and the manifest uses `python_dependencies`).
+
 # 03: Features
 
 Priorities: **P0 = must have** (the demo depends on it) · **P1 = should have** · **P2 = stretch**.
