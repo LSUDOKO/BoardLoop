@@ -1,0 +1,6 @@
+{
+  "exit_code": 1,
+  "stdout": "BOOT OK\n[pin fail] Expected text matched: \"BOOT OK\"\nLED=ON\nLED=OFF\n[pin fail] Expected text matched: \"LED=OFF\"\n[pin fail] delay 100ms\n[pin fail] expect-pin led1:A == 1\n",
+  "stderr": "Error: [600904313ns] GPIO led1:A expected to be 1 but was 0\n    at TestScenario.fail (/snapshot/dist/cli.cjs:51508:11)\n    at ExpectPinCommand.run (/snapshot/dist/cli.cjs:51759:16)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async TestScenario.executeStep (/snapshot/dist/cli.cjs:51474:9)\n    at async TestScenario.start (/snapshot/dist/cli.cjs:51466:7)\n    at async runSimulation (/snapshot/dist/cli.cjs:52429:5)\n    at async _Command.parseAsync (/snapshot/dist/cli.cjs:1885:9)\n    at async runCLI (/snapshot/dist/cli.cjs:52521:3)\n",
+  "source": "recorded: wokwi-cli 0.29.1, 2026-11-09"
+}

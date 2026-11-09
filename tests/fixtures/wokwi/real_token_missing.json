@@ -1,0 +1,6 @@
+{
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "Error: Missing WOKWI_CLI_TOKEN environment variable. Please set it to your Wokwi token.\nGet your token at https://wokwi.com/dashboard/ci.\n",
+  "source": "recorded: wokwi-cli 0.29.1, 2026-11-09"
+}

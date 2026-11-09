@@ -101,3 +101,20 @@ def test_argv_screenshot(tmp_path):
     argv = simulator.build_argv(["w"], tmp_path, timeout_ms=5000, serial_log=tmp_path / "s",
                                 screenshot_part="oled1", screenshot_file=tmp_path / "o.png")
     assert argv[argv.index("--screenshot-time") + 1] == "5000"
+
+
+# --- recorded from the real wokwi-cli 0.29.1 (tests/fixtures/wokwi/real_*.json) -------------------
+
+def test_real_expect_pin_fail():
+    r = run("real_expect_pin_fail", waits=["BOOT OK", "LED=OFF"])
+    assert r.reason == "expected led1:A = 1, got 0" and r.sim_ms == 600
+
+
+def test_real_button_scenario_pass():
+    assert run("real_button_pass", waits=["BOOT OK", "BUTTON=DOWN"]).passed
+
+
+def test_real_timeout_and_fail_text_and_token():
+    assert run("real_timeout", expect_text="NEVER").reason == "expected text never appeared: NEVER"
+    assert run("real_fail_text").reason == "fail text seen: LED=OFF"
+    assert run("real_token_missing").error == "token_missing"

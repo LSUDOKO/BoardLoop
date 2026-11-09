@@ -1,0 +1,6 @@
+{
+  "exit_code": 0,
+  "stdout": "BOOT OK\n[hold button] Expected text matched: \"BOOT OK\"\nLED=ON\nLED=OFF\nBUTTON=DOWN\n[hold button] Expected text matched: \"BUTTON=DOWN\"\n[hold button] delay 1000ms\n LED=ON\nBUTTON=DOWN LED=ON\nBUTTON=DOWN LED=ON\nBUTTON=DOWN LED=ON\nBUTTON=DOWN LED=ON\nBUTTON=DOWN LED=ON\nBUTTON=DOWN LED=ON\nBUTTON=DOWN LED=ON\nBUTTON=DOWN LED=ON\nBUTTON=DOWN LED=ON\n[hold button] expect-pin led1:A == 1\n[hold button] Scenario completed successfully\n",
+  "stderr": "",
+  "source": "recorded: wokwi-cli 0.29.1, 2026-11-09"
+}

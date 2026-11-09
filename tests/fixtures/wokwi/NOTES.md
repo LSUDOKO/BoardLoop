@@ -2,9 +2,10 @@
 
 **Source:** read from the wokwi-cli source code, `github.com/wokwi/wokwi-cli` at commit
 `f23ed6fe2a8df332a9020fafb3c82b6ca95aa61c` (2026-10-23), files under `packages/cli/src/`.
-**Status:** derived from source, *not yet recorded* from a real run. The JSON fixtures next to
-this file reproduce the messages the source prints (colours stripped, as when stdout is not a
-TTY). Re-record them with a real token: `BOARDLOOP_REAL=1 pytest -m real -k record`.
+**Status: confirmed by real runs** (wokwi-cli 0.29.1, Wokwi Simulation API 1.0.0-20261105,
+2026-11-09, `examples/blink-uno` on an Arduino Uno). `real_*.json` are the recorded outputs;
+the other JSON files were written from the source first and match the recordings line for line.
+Item 7 (pushbutton `pressed`) is confirmed by `real_button_pass.json`.
 
 | # | Question | Answer | Where in the source |
 |---|---|---|---|

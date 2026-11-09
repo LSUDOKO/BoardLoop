@@ -1,0 +1,6 @@
+{
+  "exit_code": 42,
+  "stdout": "BOOT OK\nLED=ON\nLED=OFF\nLED=ON\n",
+  "stderr": "\nTimeout: simulation did not finish in 1500ms\n",
+  "source": "recorded: wokwi-cli 0.29.1, 2026-11-09"
+}
