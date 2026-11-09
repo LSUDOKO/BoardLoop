@@ -32,7 +32,8 @@ driver (`mcu_verify`). Never tell the user firmware works until `mcu_verify` say
      the `hint`; run `mcu_doctor`. No attempt was spent.
    - `needs_human`: the fix budget is used up. **Stop editing.** Summarise what you tried and
      what still fails, and ask the user. Only use `reset=true` if they tell you to continue.
-   - `verified`: report the result with the test table and screenshot paths.
+   - `verified`: report the result as a short test table, and show each screenshot on its own
+     line as `MEDIA:<absolute path>` (Hermes Desktop draws it as a pass/fail hardware card).
 4. **Real board (only if the user has one):** `mcu_ports` → explain what will be flashed →
    `mcu_upload` (the user approves it) → `mcu_serial_read port=... expect_serial=[...]`.
 
