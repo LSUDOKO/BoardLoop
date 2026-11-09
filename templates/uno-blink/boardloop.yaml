@@ -13,7 +13,7 @@ tests:
 
   - name: holding the button keeps the LED on
     controls:                      # Wokwi set-control steps (pushbutton supports automation)
-      - { part: btn1, control: pressed, value: 1 }   # VERIFY control name in Wokwi pushbutton docs
+      - { part: btn1, control: pressed, value: 1 }   # confirmed: tests/fixtures/wokwi/real_button_pass.json
     run_ms: 1500
     expect_serial: ["BUTTON=DOWN"]
     expect_pins:

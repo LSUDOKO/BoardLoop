@@ -12,7 +12,7 @@ Each project folder has the same name as its `.ino` file (an arduino-cli rule) a
 - `wokwi.toml`: tells Wokwi where the compiled firmware is (`build/…` from `arduino-cli compile --output-dir build`)
 - `boardloop.yaml`: BoardLoop's project file: board, libraries and **tests**
 
-Status: the sketches pass a C++ syntax check (the buggy one fails exactly at its planted line), and
-all JSON, TOML and YAML files are valid and cross-referenced. Compile them with the real toolchain
-and run them on Wokwi during setup (kit README, Step 2). The pushbutton control name in
-`blink-uno/boardloop.yaml` is marked VERIFY.
+Status: all three compile with arduino-cli 1.5.1 and pass on Wokwi (wokwi-cli 0.29.1); the
+buggy one fails exactly as planted. They also ship as templates: `mcu_project_new` with
+`esp32-thermostat`, `uno-blink` or `demo-thermostat-buggy`. The pushbutton control name
+(`pressed`) is confirmed by a recorded run (`tests/fixtures/wokwi/real_button_pass.json`).
