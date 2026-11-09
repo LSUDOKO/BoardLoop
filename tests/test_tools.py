@@ -157,3 +157,40 @@ def test_internal_errors_become_json(env, monkeypatch):
     monkeypatch.setattr(tools.projects, "list_projects", lambda ws: 1 / 0)
     r = call("mcu_doctor")
     assert r["error"] == "internal" and "ZeroDivisionError" in r["message"]
+
+
+def test_real_board_test_mode(env, monkeypatch):
+    """target=real: flash (fake arduino-cli), reset + capture serial (fake port), judge tests."""
+    from boardloop import serialmon
+    new("uno1", "uno-blink")
+    monkeypatch.setattr(serialmon, "available", lambda: True)
+    seen = {}
+
+    def fake_read(port, baud, seconds, until_text="", opener=None, reset=False, until_all=None):
+        seen.update(port=port, reset=reset, until_all=until_all)
+        return ["BOOT OK", "LED=ON", "LED=OFF", "LED=ON"]
+    monkeypatch.setattr(serialmon, "read", fake_read)
+    r = call("mcu_test", project="uno1", target="real", port="/dev/ttyUSB0", seconds=5)
+    assert r["ok"] and r["target"] == "real", r
+    assert (r["passed"], r["failed"], r["skipped"]) == (1, 0, 1)
+    by = {x["name"]: x for x in r["results"]}
+    assert by["LED blinks on its own"]["passed"] is True
+    assert by["holding the button keeps the LED on"]["skipped"] and "btn1" in by["holding the button keeps the LED on"]["reason"]
+    assert seen == {"port": "/dev/ttyUSB0", "reset": True, "until_all": ["BOOT OK", "LED=ON", "LED=OFF"]}
+    hist = tools.RUNTIME._store.history("uno1")
+    assert any(h["stage"] == "upload" for h in hist) and any("[real /dev/ttyUSB0]" in h["reason"] for h in hist)
+
+
+def test_real_board_failures_and_guards(env, monkeypatch):
+    from boardloop import serialmon
+    new()
+    monkeypatch.setattr(serialmon, "available", lambda: True)
+    monkeypatch.setattr(serialmon, "read", lambda *a, **k: ["BOOT OK", "ERROR: DHT read failed"])
+    r = call("mcu_test", project="demo1", target="real", port="/dev/ttyUSB0",
+             tests=[{"name": "boots", "expect_serial": ["T="], "expect_pins": [{"part": "led1", "pin": "A", "value": 0}]}])
+    res = r["results"][0]
+    assert res["passed"] is False and res["reason"].startswith("fail text seen") and res["unchecked"] == ["led1:A = 0"]
+    assert call("mcu_test", project="demo1", target="real", port="/dev/ttyUSB7")["error"] == "port_not_found"
+    assert call("mcu_test", project="demo1", target="moon")["error"] == "bad_args"
+    monkeypatch.setattr(serialmon, "available", lambda: False)
+    assert call("mcu_test", project="demo1", target="real", port="/dev/ttyUSB0")["error"] == "serial_unavailable"

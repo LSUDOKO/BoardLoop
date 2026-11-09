@@ -88,8 +88,14 @@ MCU_TEST = _schema(
     "Run behaviour tests on simulated hardware: for each test BoardLoop sets sensor values, presses buttons, "
     "runs the firmware in Wokwi and checks serial lines, pin levels and screenshots. Uses the tests in "
     "boardloop.yaml unless 'tests' is given. While fixing, rerun only the failing ones with 'only' to save "
-    "Wokwi minutes. Returns a results table with one-line reasons such as 'expected led1:A = 1, got 0'.",
+    "Wokwi minutes. Returns a results table with one-line reasons such as 'expected led1:A = 1, got 0'. "
+    "target='real' runs the tests on a connected board instead: flashes it (the user approves), resets it "
+    "and checks the serial expectations; tests that set simulated sensors/buttons are reported as skipped.",
     {"project": PROJECT,
+     "target": {"type": "string", "enum": ["sim", "real"], "description": "'sim' (default, Wokwi) or 'real' (a connected board)."},
+     "port": {"type": "string", "description": "For target='real': serial port from mcu_ports."},
+     "baud": BAUD,
+     "seconds": {"type": "number", "description": "For target='real': how long to listen after reset (default 10, max 30)."},
      "tests": {"type": "array", "items": TEST_ITEM, "description": "Inline tests instead of boardloop.yaml's."},
      "only": {"type": "array", "items": {"type": "string"}, "description": "Run only these test names."}},
     ["project"])
