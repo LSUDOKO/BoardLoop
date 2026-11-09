@@ -40,8 +40,9 @@ class Runner:
         return env
 
     def _run(self, argv: list[str], cwd: Path, timeout_ms: int) -> procs.ProcResult:
-        # the cloud can run slower than real time; generous wall clock, but always bounded
-        return procs.run(argv, cwd=cwd, timeout=timeout_ms / 1000 * 3 + 60, env=self._env())
+        # ESP32 simulation in the Wokwi cloud runs several times slower than real time (measured:
+        # 9 s simulated took 40-90 s wall), so the guard is generous, but always bounded.
+        return procs.run(argv, cwd=cwd, timeout=wall_timeout_s(timeout_ms), env=self._env())
 
     def new_run_dir(self, project: str) -> tuple[str, Path]:
         run_id = time.strftime("%Y%m%d-%H%M%S") + "-" + uuid.uuid4().hex[:4]
@@ -150,6 +151,11 @@ class Runner:
                    "total": len(tests), "results": results}
         self.store.save_latest(project.name, "test", summary)
         return summary
+
+
+def wall_timeout_s(timeout_ms: int) -> float:
+    """Wall-clock limit for one wokwi-cli run: 10x the simulated time plus 90 s of startup."""
+    return timeout_ms / 1000 * 10 + 90
 
 
 def _read(path: Path) -> str:
