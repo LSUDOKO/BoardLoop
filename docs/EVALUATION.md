@@ -90,6 +90,7 @@ no shell, no telemetry, no self-update, no binaries ([`scripts/check_repo.py`](.
 ## Honest limits
 
 Simulation differs from real hardware, Wokwi needs a network connection and a plan, and the
-real-board tools have been tested with fakes but not yet on a physical board, and the Desktop
-screenshot card passes the SDK check but hasn't been tried in the Desktop app yet. See the README's
+real-board tools (including `mcu_test target="real"`) have been tested with fakes but not yet on
+a physical board, and the Desktop pane has been tested with real React and a live backend but not
+yet inside the Desktop window. See the README's
 *Limitations* section.

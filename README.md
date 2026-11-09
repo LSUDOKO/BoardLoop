@@ -79,7 +79,7 @@ the LED is lit and the serial monitor streams the lines the tests check.
 | `mcu_libraries` | Search, install (and record in the project) or list Arduino libraries | |
 | `mcu_compile` | Compiles; ≤10 parsed errors with source context and fix hints; flash/RAM use | |
 | `mcu_simulate` | One Wokwi run: expect/fail text, serial tail, part screenshot | |
-| `mcu_test` | **Behaviour tests on simulated hardware**, each in an isolated run folder; `only=[...]` reruns failures | |
+| `mcu_test` | **Behaviour tests on simulated hardware**, each in an isolated run folder; `only=[...]` reruns failures. `target="real"` runs them on a connected board: flash, reset, check the serial lines | **real only** |
 | `mcu_verify` | The loop step: compile → test → one status with an attempt budget | |
 | `mcu_wiring_check` | Catches input-only pins used as outputs, LEDs without resistors, buttons on strapping pins, parts without ground, plus `wokwi-cli lint` | |
 | `mcu_export` | Exports the sketch, diagram and libraries for the wokwi.com editor, to watch the circuit live | |
@@ -90,10 +90,14 @@ the LED is lit and the serial monitor streams the lines the tests check.
 
 Also: the **`/mcu`** command (status, projects, history, doctor), a bundled **skill** that teaches
 the agent the workflow and how to write tests ([`skills/boardloop/SKILL.md`](skills/boardloop/SKILL.md)),
-a **Wokwi minutes meter**, and a **Hermes Desktop card** ([`desktop/plugin.js`](desktop/plugin.js)) that
-shows each simulated OLED screenshot in chat with its test name, PASS/FAIL and reason. It passes Hermes's
-`desktop surface` check but has not yet been tried in the Desktop app; on any surprise it falls
-back to the built-in image viewer.
+a **Wokwi minutes meter**, and a **Hermes Desktop half** ([`desktop/plugin.js`](desktop/plugin.js)):
+- a **Workbench pane** with the minutes meter, a project picker, the last verify, the latest
+  simulated and real-board results with OLED screenshots and failure serial tails, and history.
+  It reads [`dashboard/plugin_api.py`](dashboard/plugin_api.py) and refreshes when a test run ends;
+- a **screenshot card** that shows each OLED screenshot in chat with its test name, PASS/FAIL and reason.
+
+Both are SDK-only (validate: `desktop surface` passes) and are tested with real React in jsdom
+([`tests/desktop/`](tests/desktop)); the backend was checked live in the Hermes dashboard server.
 
 ## Quick start
 
@@ -122,6 +126,7 @@ back to the built-in image viewer.
 - *"Make a plant-watering alarm: soil moisture below 30% beeps a buzzer. Write the tests too."*
 - *"Button on GPIO 27 toggles the relay; a long press resets it. Test both."*
 - *"Flash it to my board on /dev/ttyUSB0 and check it prints BOOT OK."*
+- *"Run the tests on my real board on COM5."* (`mcu_test target="real"`: you approve the flash first)
 
 ## Writing tests (`boardloop.yaml`)
 
@@ -149,6 +154,14 @@ Each test becomes a Wokwi automation scenario ([`scenario.py`](scenario.py)). Ev
 checked against `diagram.json`, so a test can't refer to a part that isn't in the circuit
 ([`projects.py`](projects.py)). The skill tells the agent to write a normal case, an opposite case
 and an edge case for every behaviour. Teachers can hand out the tests and use them for grading.
+
+### On a real board
+
+`mcu_test target="real" port=...` uses the same `boardloop.yaml`. It recompiles if needed and
+flashes the board (after your approval). Then it resets the board, captures its serial output and
+checks each test's `boot_text` and `expect_serial`. Tests that set simulated sensor values or
+press simulated buttons can't be reproduced unattended on hardware, so they are reported as
+**skipped** with what to do instead, never as passes. Pin expectations are listed as unchecked.
 
 ## Supported boards and parts
 
@@ -227,8 +240,9 @@ with new code that the agent writes and tests.
   ([`tests/fixtures/wokwi/NOTES.md`](tests/fixtures/wokwi/NOTES.md)).
 - Sensors such as the DHT22 have no live Wokwi control, so their values are set per test before the
   run, not changed during it.
-- The real-board tools (`mcu_upload`, `mcu_serial_*`) are unit-tested with fakes and a fake serial
-  port. They have not yet been run against physical hardware for this release. Everything else
+- The real-board tools (`mcu_upload`, `mcu_serial_*`, `mcu_test target="real"`) are tested with
+  fakes and a fake serial port, and their approval gates are checked through Hermes itself. They
+  have not yet been run against physical hardware for this release. Everything else
   is verified end to end on the real toolchain (arduino-cli 1.5.1, ESP32 core 3.3.12, wokwi-cli
   0.29.1; `tests/test_real.py`).
 - An ESP32 verify still takes a few minutes of wall time: the first compile plus cloud simulation.
