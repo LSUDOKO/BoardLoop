@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 
 LIBRARY_RE = re.compile(r"^[\w .+\-]{1,80}$")
 FQBN_RE = re.compile(r"^[\w.-]+:[\w.-]+:[\w.-]+(:[\w=,.-]+)?$")
-TEMPLATE_LIBRARIES = ("Adafruit SSD1306", "Adafruit GFX Library", "DHT sensor library for ESPx")
+TEMPLATE_LIBRARIES = ("Adafruit SSD1306", "Adafruit GFX Library", "DHT sensor library", "Adafruit Unified Sensor")
 WOKWI_TOOLS = {"mcu_simulate", "mcu_test", "mcu_verify"}
 
 

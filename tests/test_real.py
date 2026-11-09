@@ -48,6 +48,6 @@ def test_real_buggy_sample_compile_error_then_logic_failures(real):
     open(ino, "w").write(src)
     v = call("mcu_verify", project="thermostat-buggy")
     assert v["status"] == "fix_behaviour" and v["tests"] == "1/3 passed", v
-    open(ino, "w").write(src.replace("data.temperature < THRESHOLD_C", "data.temperature > THRESHOLD_C"))
+    open(ino, "w").write(src.replace("t < THRESHOLD_C", "t > THRESHOLD_C"))
     v = call("mcu_verify", project="thermostat-buggy")
     assert v["status"] == "verified", v

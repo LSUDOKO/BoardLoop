@@ -88,8 +88,7 @@ tests:
 
 | Need | Library | Header |
 |---|---|---|
-| DHT22/DHT11 on ESP32 | `DHT sensor library for ESPx` (Wokwi recommends it) | `DHTesp.h` |
-| DHT on AVR | `DHT sensor library` | `DHT.h` |
+| DHT22/DHT11 (ESP32 and AVR) | `DHT sensor library` + `Adafruit Unified Sensor` | `DHT.h` |
 | SSD1306 OLED | `Adafruit SSD1306` + `Adafruit GFX Library` | `Adafruit_SSD1306.h` |
 | Servo on ESP32 | `ESP32Servo` | `ESP32Servo.h` |
 | LCD 1602 I2C | `LiquidCrystal I2C` | `LiquidCrystal_I2C.h` |

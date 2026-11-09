@@ -6,7 +6,8 @@ sketch: thermostat.ino
 libraries:                         # arduino-cli library names
   - "Adafruit SSD1306"
   - "Adafruit GFX Library"
-  - "DHT sensor library for ESPx"
+  - "DHT sensor library"
+  - "Adafruit Unified Sensor"
 boot_text: "BOOT OK"               # printed once setup() finishes
 fail_text: "ERROR:"                # any line containing this fails a run
 

@@ -90,7 +90,7 @@ shows each simulated OLED screenshot in chat with its test name, PASS/FAIL and r
    arduino-cli config add board_manager.additional_urls https://espressif.github.io/arduino-esp32/package_esp32_index.json
    arduino-cli core update-index
    arduino-cli core install esp32:esp32 arduino:avr
-   arduino-cli lib install "Adafruit SSD1306" "Adafruit GFX Library" "DHT sensor library for ESPx"
+   arduino-cli lib install "Adafruit SSD1306" "Adafruit GFX Library" "DHT sensor library" "Adafruit Unified Sensor"
    ```
 2. **wokwi-cli** ([getting started](https://docs.wokwi.com/wokwi-ci/getting-started)) and a free CI
    token from <https://wokwi.com/dashboard/ci>.
@@ -116,7 +116,7 @@ shows each simulated OLED screenshot in chat with its test name, PASS/FAIL and r
 name: thermostat
 board: esp32                     # esp32 | esp32s3 | esp32c3 | uno | nano | mega, or set fqbn
 sketch: thermostat.ino
-libraries: ["Adafruit SSD1306", "Adafruit GFX Library", "DHT sensor library for ESPx"]
+libraries: ["Adafruit SSD1306", "Adafruit GFX Library", "DHT sensor library", "Adafruit Unified Sensor"]
 boot_text: "BOOT OK"             # every test waits for this first
 fail_text: "ERROR:"              # any line containing it fails the run
 tests:

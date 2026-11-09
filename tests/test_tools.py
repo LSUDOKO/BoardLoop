@@ -98,7 +98,7 @@ def test_the_demo_loop_fixes_the_buggy_sample(env):
     v = call("mcu_verify", project="thermostat-buggy")
     assert v["status"] == "fix_behaviour" and v["attempt"] == "1/5" and v["tests"] == "1/3 passed"
     assert {f["name"] for f in v["failures"]} == {"hot room turns the LED on", "cool room keeps the LED off"}
-    open(ino, "w").write(src.replace("data.temperature < THRESHOLD_C", "data.temperature > THRESHOLD_C"))
+    open(ino, "w").write(src.replace("t < THRESHOLD_C", "t > THRESHOLD_C"))
     v = call("mcu_verify", project="thermostat-buggy")
     assert v["status"] == "verified" and v["tests"] == "3/3" and len(v["screenshots"]) == 2
     hist = tools.RUNTIME._store.history("thermostat-buggy")

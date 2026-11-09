@@ -13,14 +13,14 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include <DHTesp.h>
+#include <DHT.h>
 
 const int DHT_PIN = 4;
 const int LED_PIN = 26;
 const float THRESHOLD_C = 30.0;
 
 Adafruit_SSD1306 display(128, 64, &Wire, -1);
-DHTesp dht;
+DHT dht(DHT_PIN, DHT22);
 
 void showReading(float t, float h, bool ledOn) {
   display.clearDisplay();
@@ -47,7 +47,7 @@ void setup() {
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, LOW);
 
-  dht.setup(DHT_PIN, DHTesp::DHT22);
+  dht.begin();
 
   if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
     Serial.println("ERROR: OLED not found");
@@ -61,24 +61,23 @@ void setup() {
 }
 
 void loop() {
-  TempAndHumidity data = dht.getTempAndHumidity();
-  if (dht.getStatus() != DHTesp::ERROR_NONE) {
-    Serial.print("ERROR: DHT ");
-    Serial.println(dht.getStatusString());
-    delay(1000);
+  // The DHT22 needs 2 s between reads, including after power-up.
+  delay(2000);
+  float t = dht.readTemperature();
+  float h = dht.readHumidity();
+  if (isnan(t) || isnan(h)) {
+    Serial.println("ERROR: DHT read failed");
     return;
   }
 
-  bool ledOn = data.temperature > THRESHOLD_C;
+  bool ledOn = t > THRESHOLD_C;
   digitalWrite(LED_PIN, ledOn ? HIGH : LOW);
-  showReading(data.temperature, data.humidity, ledOn);
+  showReading(t, h, ledOn);
 
   Serial.print("T=");
-  Serial.print(data.temperature, 1);
+  Serial.print(t, 1);
   Serial.print(" H=");
-  Serial.print(data.humidity, 1);
+  Serial.print(h, 1);
   Serial.print(" LED=");
   Serial.println(ledOn ? "ON" : "OFF");
-
-  delay(1000);
 }

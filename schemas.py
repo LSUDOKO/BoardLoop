@@ -56,7 +56,7 @@ MCU_LIBRARIES = _schema(
     "Find, install or list Arduino libraries via arduino-cli. 'install' with a project also adds the "
     "library to that project's boardloop.yaml. Use after a 'No such file or directory' compile error.",
     {"action": {"type": "string", "enum": ["search", "install", "list"]},
-     "name": {"type": "string", "description": "Library name or search words, e.g. 'DHT sensor library for ESPx'."},
+     "name": {"type": "string", "description": "Library name or search words, e.g. 'DHT sensor library'."},
      "project": {"type": "string", "description": "Optional project to record an installed library in."}},
     ["action"])
 
