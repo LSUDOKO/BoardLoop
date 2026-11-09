@@ -1,0 +1,6 @@
+{
+  "exit_code": 1,
+  "stdout": "[hot room turns the LED on] Expected text matched: \"BOOT OK\"\nT=35.0 H=50.0 LED=OFF\n[hot room turns the LED on] Expected text matched: \"LED=OFF\"\n[hot room turns the LED on] delay 3000ms\n[hot room turns the LED on] expect-pin led1:A == 1\n",
+  "stderr": "Error: [4512000000ns] GPIO led1:A expected to be 1 but was 0\n    at TestScenario.fail (file:///wokwi-cli/dist/cli.js:1:1)\n",
+  "source": "derived from wokwi-cli f23ed6f"
+}

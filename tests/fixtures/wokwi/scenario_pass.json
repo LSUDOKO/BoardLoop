@@ -1,0 +1,6 @@
+{
+  "exit_code": 0,
+  "stdout": "BOOT OK\n[t] Expected text matched: \"BOOT OK\"\nT=35.0 H=50.0 LED=ON\n[t] Expected text matched: \"LED=ON\"\n[t] delay 3000ms\n[t] expect-pin led1:A == 1\n[t] Scenario completed successfully\n",
+  "stderr": "",
+  "source": "derived from wokwi-cli f23ed6f"
+}

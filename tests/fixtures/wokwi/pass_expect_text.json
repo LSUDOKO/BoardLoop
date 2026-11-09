@@ -1,0 +1,6 @@
+{
+  "exit_code": 0,
+  "stdout": "BOOT OK\n\n\nExpected text found: \"BOOT OK\"\nTEST PASSED.\n",
+  "stderr": "",
+  "source": "derived from wokwi-cli f23ed6f"
+}

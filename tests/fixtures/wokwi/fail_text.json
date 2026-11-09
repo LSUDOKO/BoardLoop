@@ -1,0 +1,6 @@
+{
+  "exit_code": 1,
+  "stdout": "ERROR: OLED not found\n",
+  "stderr": "\n\nError: Unexpected text found: \"ERROR:\"\nTEST FAILED.\n",
+  "source": "derived from wokwi-cli f23ed6f"
+}

@@ -1,0 +1,6 @@
+{
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "API Error: Unauthorized\n",
+  "source": "derived from wokwi-cli f23ed6f"
+}

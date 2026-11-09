@@ -1,0 +1,6 @@
+{
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "Error: firmware file not found: /p/build/thermostat.ino.bin.\nPlease check the firmware path in your wokwi.toml configuration file.\n",
+  "source": "derived from wokwi-cli f23ed6f"
+}
