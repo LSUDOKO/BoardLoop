@@ -27,3 +27,16 @@ jobs:
         run: python -m pytest -q
       - name: Repo hygiene (no binaries, build outputs or tokens)
         run: python scripts/check_repo.py
+
+  desktop:
+    name: Desktop pane (React render tests)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --no-audit --no-fund
+        working-directory: tests/desktop
+      - run: npm test
+        working-directory: tests/desktop
