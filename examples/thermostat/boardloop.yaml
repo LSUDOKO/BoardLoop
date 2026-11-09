@@ -1,4 +1,4 @@
-# BoardLoop project file (format defined in docs/04-architecture.md)
+# BoardLoop project file (format: see the README, "Writing tests")
 name: thermostat
 board: esp32                       # alias, resolved to the FQBN below
 fqbn: esp32:esp32:esp32

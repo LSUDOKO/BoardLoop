@@ -2,7 +2,7 @@
 # Use it to check by hand that scenarios work with your wokwi-cli version:
 #   wokwi-cli . --scenario scenario-hot.yaml --timeout 8000
 # DHT22 temperature comes from the diagram attrs (BoardLoop patches a copy per test),
-# because the DHT22 automation control name is not documented (see docs/07-wokwi-guide.md).
+# because the DHT22 automation control name is not documented (see docs/kit/07-wokwi-guide.md).
 name: Hot room turns the LED on
 version: 1
 author: BoardLoop

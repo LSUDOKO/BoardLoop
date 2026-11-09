@@ -1,4 +1,4 @@
-# Wokwi CLI behaviour (VERIFY list from docs/07-wokwi-guide.md)
+# Wokwi CLI behaviour (VERIFY list from docs/kit/07-wokwi-guide.md)
 
 **Source:** read from the wokwi-cli source code, `github.com/wokwi/wokwi-cli` at commit
 `f23ed6fe2a8df332a9020fafb3c82b6ca95aa61c` (2026-10-23), files under `packages/cli/src/`.
