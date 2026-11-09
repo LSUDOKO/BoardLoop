@@ -16,16 +16,15 @@ native Windows**, since WSL needs extra USB passthrough).
 
 ## 3. Claude Code
 Docs: https://code.claude.com/docs/en/overview
-- macOS / Linux / WSL: `curl -fsSL https://claude.ai/install.sh | bash`
-- Windows PowerShell: `irm https://claude.ai/install.ps1 | iex`
+- Install with the official installer for your OS from the docs page above.
 - Or `brew install --cask claude-code` / `winget install Anthropic.ClaudeCode`
 Open a new terminal: `claude --version`. Log in on first run.
 
 ## 4. arduino-cli + ESP32 core + libraries
 Install arduino-cli (docs: https://arduino.github.io/arduino-cli/latest/installation/):
 - macOS: `brew install arduino-cli`
-- Linux / WSL: `curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh`
-  (installs into `./bin`; move it onto your PATH, e.g. `sudo mv bin/arduino-cli /usr/local/bin/`)
+- Linux / WSL: download the Linux release archive from https://github.com/arduino/arduino-cli/releases/latest
+  and put `arduino-cli` on your PATH (or use the installer described on the installation page)
 - Windows: download the Windows .zip from https://github.com/arduino/arduino-cli/releases/latest
   and put `arduino-cli.exe` on your PATH (or find a package with `winget search arduino-cli`).
 
@@ -46,8 +45,8 @@ minutes**; later ones are much faster.
 
 ## 5. wokwi-cli + token
 Docs: https://docs.wokwi.com/wokwi-ci/getting-started
-- Linux / macOS: `curl -L https://wokwi.com/ci/install.sh | sh`
-- Windows PowerShell: `iwr https://wokwi.com/ci/install.ps1 -useb | iex`
+- Install with the official installer for your OS from the getting-started page above
+  (it publishes one script for Linux/macOS and one for Windows PowerShell).
 - Check: `wokwi-cli --help`
 - Token: sign in at wokwi.com → your account's **CI / API tokens** page (linked from the Wokwi CI
   getting-started docs) → create a token. It starts with `wok_` and is 44 characters long.

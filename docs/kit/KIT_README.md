@@ -41,8 +41,7 @@ Step 2 below does that.
 Follow `docs/06-dev-setup.md`. Summary:
 1. Python 3.11+, Git, a GitHub account.
 2. Hermes Agent (hermes-agent.nousresearch.com). Run `hermes` once.
-3. Claude Code: `curl -fsSL https://claude.ai/install.sh | bash` (macOS/Linux/WSL) or
-   `irm https://claude.ai/install.ps1 | iex` (Windows PowerShell). Check `claude --version`.
+3. Claude Code: follow https://code.claude.com/docs/en/overview. Check `claude --version`.
 4. arduino-cli, the ESP32 core and the three libraries.
 5. wokwi-cli plus a free Wokwi CI token in `WOKWI_CLI_TOKEN`.
 
