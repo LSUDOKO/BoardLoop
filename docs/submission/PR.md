@@ -6,7 +6,9 @@ Hermes writes ESP32/Arduino code, compiles it with arduino-cli, tests it in the 
 (sets sensor values, presses buttons, checks pins, serial output and OLED screenshots), fixes it
 within bounded attempts, and flashes real boards with approval. Hermes Agent Plugin Hackathon entry.
 
-Repo: https://github.com/LSUDOKO/BoardLoop (pinned at `b234f295187d331eb5d7b27f57df2bfa4ccc7cbf`) · Demo: <X link>
+Repo: https://github.com/LSUDOKO/BoardLoop (pinned at `bcfa97837751a8d0e29ec49c2e6eeb580c5791ca`) · Website: https://boardloop.pages.dev · Demo: <X link>
+
+![BoardLoop demo](https://raw.githubusercontent.com/LSUDOKO/BoardLoop/bcfa97837751a8d0e29ec49c2e6eeb580c5791ca/assets/demo.gif)
 
 ### Hermes surfaces used
 - `register_tool` (toolset `boardloop`): mcu_doctor, mcu_project_new, mcu_project_info, mcu_libraries,
