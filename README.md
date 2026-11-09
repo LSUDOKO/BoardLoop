@@ -186,11 +186,17 @@ See [SECURITY.md](SECURITY.md).
 
 ## Wokwi minutes
 
-The free plan gives 50 simulated minutes per rolling 30 days. A full verify of the thermostat
-(3 tests) uses about 15 simulated seconds. The CLI exits as soon as a scenario's last step passes,
-so a test costs the time it needs, not its timeout. That's about 200 full verifies a month on the
-free plan. While fixing, `mcu_test only=[...]` reruns just the failing tests. The meter records
-the timeout as an upper bound when a run doesn't report its end time, so it errs high.
+The free plan gives 50 simulated minutes per rolling 30 days. Measured on the thermostat: each
+test runs about 6 simulated seconds (boot, the DHT22's 2 s warm-up, a 3 s settle), and the CLI
+exits as soon as a scenario's last step passes. So a full 3-test verify uses about 18 simulated
+seconds, roughly 160 full verifies a month on the free plan. BoardLoop's meter records each
+test's timeout budget (9 s) because Wokwi doesn't report the end time of a passing run, so
+`/mcu` errs high (27 s per verify). While fixing, `mcu_test only=[...]` reruns just the failing
+tests.
+
+Wall-clock time is a different matter: ESP32 simulation runs several times slower than real time
+in Wokwi's cloud, so one ESP32 test takes roughly 40–90 s and a full verify a few minutes. The first
+ESP32 compile of a project also takes 1–2 minutes; later ones are faster.
 
 ## How it fits with other plugins
 
@@ -208,7 +214,10 @@ with new code that the agent writes and tests.
 - Sensors such as the DHT22 have no live Wokwi control, so their values are set per test before the
   run, not changed during it.
 - The real-board tools (`mcu_upload`, `mcu_serial_*`) are unit-tested with fakes and a fake serial
-  port. They have not yet been run against physical hardware for this release.
+  port. They have not yet been run against physical hardware for this release. Everything else
+  is verified end to end on the real toolchain (arduino-cli 1.5.1, ESP32 core 3.3.12, wokwi-cli
+  0.29.1; `tests/test_real.py`).
+- Tests run one after another, so an ESP32 verify takes minutes of wall time (see above).
 
 ## Development
 
