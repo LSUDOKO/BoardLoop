@@ -53,6 +53,13 @@ A prompt can only *suggest* firmware. BoardLoop **executes** it:
   It then shows that `mcu_upload` with nobody to approve it is **blocked fail-closed** by Hermes,
   with BoardLoop's approval message (*Flash "thermostat-buggy" (esp32:esp32:esp32, 2 KB) to
   /dev/ttyUSB0. Tests: 3/3 tests passed in simulation.*).
+- **A real model, through real Hermes, on real Wokwi:** with BoardLoop installed from GitHub
+  (`hermes plugins install LSUDOKO/BoardLoop`), one prompt (*"create thermostat-buggy from the
+  demo template, it's broken, make it pass its tests"*) led the agent to fix the missing `;` and
+  the reversed comparison and reach **verified 3/3**, reporting the OLED screenshots as `MEDIA:`
+  lines and offering to flash only if a board is connected. Along the way a test hit a real Wokwi
+  network drop (`socket hang up`). BoardLoop reported it as `blocked`, spent no fix attempt, and
+  now retries such a run once by itself.
 - **Catalog compliance is tested**: declared tools = registered tools = `TOOLS` table
   ([`test_registration.py`](../tests/test_registration.py)); `hermes plugins validate` passes with a
   `safe` security scan.
