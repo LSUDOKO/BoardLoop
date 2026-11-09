@@ -352,7 +352,7 @@ def mcu_simulate(args: dict, settings: config.Settings, store: Store) -> dict:
     part = _str_arg(args, "screenshot_part", max_len=41)
     if part and part not in p.part_ids():
         raise ProjectError("bad_args", f"No part '{part}' in diagram.json.", "See mcu_project_info for part ids.")
-    runner = testrunner.Runner(cli, settings.runs_dir, store, token)
+    runner = testrunner.Runner(cli, settings.runs_dir, store, token, parallel=settings.parallel_tests)
     out = runner.simulate(p, timeout_ms=timeout_ms, expect_text=_str_arg(args, "expect_text"),
                           fail_text=_str_arg(args, "fail_text"), screenshot_part=part,
                           screenshot_time_ms=_int_arg(args, "screenshot_time_ms", 0, 0, timeout_ms))
@@ -387,7 +387,7 @@ def mcu_test(args: dict, settings: config.Settings, store: Store) -> dict:
     tests = _select_tests(p, args)
     cli = _wokwi(settings)
     token = _need_token()
-    out = testrunner.Runner(cli, settings.runs_dir, store, token).run_tests(p, tests)
+    out = testrunner.Runner(cli, settings.runs_dir, store, token, parallel=settings.parallel_tests).run_tests(p, tests)
     out["ok"] = not any(r.get("error") for r in out["results"])
     if testrunner.firmware_is_stale(p):
         out["note"] = "The sketch is newer than the firmware: these results are for the old build. Use mcu_verify."
@@ -405,7 +405,7 @@ def mcu_verify(args: dict, settings: config.Settings, store: Store) -> dict:
         except ProjectError as exc:
             return {"passed": 0, "total": len(tests), "results": [
                 {"name": "(setup)", "passed": False, "reason": exc.message, "error": exc.code, "hint": exc.hint}]}
-        return testrunner.Runner(cli, settings.runs_dir, store, token).run_tests(p, tests)
+        return testrunner.Runner(cli, settings.runs_dir, store, token, parallel=settings.parallel_tests).run_tests(p, tests)
 
     def compile_fn() -> dict:
         try:

@@ -120,3 +120,12 @@ def test_stale_firmware(env):
     later = time.time() + 5
     os.utime(p.path / "thermostat.ino", (later, later))
     assert testrunner.firmware_is_stale(p)
+
+
+def test_parallel_matches_sequential(env):
+    ws, runner, _ = env
+    p = compiled(ws, "thermostat")
+    runner.parallel = 3
+    out = runner.run_tests(p, p.tests)
+    assert [r["name"] for r in out["results"]] == [t["name"] for t in p.tests]   # order kept
+    assert out["passed"] == 3

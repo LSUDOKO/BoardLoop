@@ -7,6 +7,7 @@ never modified.
 from __future__ import annotations
 
 import copy
+from concurrent.futures import ThreadPoolExecutor
 import json
 import os
 import shutil
@@ -30,6 +31,7 @@ class Runner:
     store: Store
     token: str | None
     default_timeout_ms: int = 6000
+    parallel: int = 1
 
     # ------------------------------------------------------------------------------------------
     def _env(self) -> dict[str, str]:
@@ -140,12 +142,18 @@ class Runner:
 
     def run_tests(self, project: Project, tests: list[dict]) -> dict:
         run_id, run_dir = self.new_run_dir(project.name)
-        results = []
-        for test in tests:
-            r = self.run_test(project, test, run_dir)
-            results.append(r)
-            if r.get("error") in ("token_missing", "bad_args"):
-                break  # every other test would fail the same way; don't burn minutes
+        # The first test runs alone: a missing token or firmware fails it immediately, and every
+        # other test would fail the same way, so nothing more is started.
+        results = [self.run_test(project, tests[0], run_dir)] if tests else []
+        if results and results[0].get("error") not in ("token_missing", "bad_args"):
+            rest = tests[1:]
+            if self.parallel > 1 and len(rest) > 1:
+                # ESP32 simulation runs slower than real time in the cloud; independent tests
+                # in parallel cut a verify's wall time roughly by the pool size.
+                with ThreadPoolExecutor(max_workers=self.parallel) as pool:
+                    results += list(pool.map(lambda t: self.run_test(project, t, run_dir), rest))
+            else:
+                results += [self.run_test(project, t, run_dir) for t in rest]
         passed = sum(1 for r in results if r["passed"])
         summary = {"run_id": run_id, "passed": passed, "failed": len(results) - passed,
                    "total": len(tests), "results": results}

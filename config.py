@@ -71,6 +71,7 @@ class Settings:
     compile_timeout_s: int = 300
     compile_budget: int = 3
     test_budget: int = 5
+    parallel_tests: int = 3
     arduino_cli_path: str = ""
     wokwi_cli_path: str = ""
     extra: dict = field(default_factory=dict)
@@ -97,6 +98,7 @@ class Settings:
             compile_timeout_s=_int(get("compile_timeout_s", 300), 300, 10, MAX_COMPILE_TIMEOUT_S),
             compile_budget=_int(get("compile_budget", 3), 3, 1, 10),
             test_budget=_int(get("test_budget", 5), 5, 1, 20),
+            parallel_tests=_int(get("parallel_tests", 3), 3, 1, 5),
             arduino_cli_path=str(get("arduino_cli_path", "") or "").strip(),
             wokwi_cli_path=str(get("wokwi_cli_path", "") or "").strip(),
         )

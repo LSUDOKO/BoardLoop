@@ -36,5 +36,6 @@ config_schema:
   compile_timeout_s:   {type: int,    default: 300, label: "Compile timeout (s)", description: "The first ESP32 build can take a few minutes"}
   compile_budget:      {type: int,    default: 3, label: "Compile fix attempts", description: "mcu_verify stops with needs_human after this many"}
   test_budget:         {type: int,    default: 5, label: "Behaviour fix attempts", description: "mcu_verify stops with needs_human after this many"}
+  parallel_tests:      {type: int,    default: 3, label: "Tests run in parallel", description: "Wokwi simulations at once (1-5); lower it if your plan limits concurrency"}
   arduino_cli_path:    {type: str,    default: "", label: "arduino-cli path (optional)"}
   wokwi_cli_path:      {type: str,    default: "", label: "wokwi-cli path (optional)"}
