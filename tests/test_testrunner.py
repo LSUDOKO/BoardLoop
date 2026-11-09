@@ -129,3 +129,12 @@ def test_parallel_matches_sequential(env):
     out = runner.run_tests(p, p.tests)
     assert [r["name"] for r in out["results"]] == [t["name"] for t in p.tests]   # order kept
     assert out["passed"] == 3
+
+
+def test_transient_network_error_is_retried_once(env, monkeypatch, tmp_path):
+    ws, runner, store = env
+    p = compiled(ws, "thermostat")
+    monkeypatch.setenv("FAKE_WOKWI_FLAKY_FILE", str(tmp_path / "flaky"))
+    out = runner.run_tests(p, p.tests[:1])
+    assert out["passed"] == 1, out
+    assert (tmp_path / "flaky").exists()

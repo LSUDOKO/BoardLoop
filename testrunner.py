@@ -22,6 +22,8 @@ from .projects import Project, ProjectError
 from .storage import Store
 
 RUN_MAX_AGE_S = 24 * 3600
+# Network blips seen on real runs ("Error connecting to wss://wokwi.com/...: socket hang up").
+TRANSIENT = ("socket hang up", "Error connecting to wss://", "ECONNRESET", "ETIMEDOUT", "EAI_AGAIN")
 
 
 @dataclass
@@ -121,11 +123,15 @@ class Runner:
         argv = simulator.build_argv(
             self.wokwi_cli, tdir, timeout_ms=timeout_ms, serial_log=tdir / "serial.log",
             fail_text=project.fail_text, scenario=tdir / "scenario.yaml")
-        res = self._run(argv, tdir, timeout_ms)
-        verdict = simulator.classify(
-            res.code, res.stdout, res.stderr, timeout_ms=timeout_ms,
-            waits=scenario.waits(test, project.boot_text), serial=_read(tdir / "serial.log"),
-            wall_timed_out=res.timed_out)
+        for attempt in (1, 2):
+            res = self._run(argv, tdir, timeout_ms)
+            verdict = simulator.classify(
+                res.code, res.stdout, res.stderr, timeout_ms=timeout_ms,
+                waits=scenario.waits(test, project.boot_text), serial=_read(tdir / "serial.log"),
+                wall_timed_out=res.timed_out)
+            # one automatic retry for a dropped connection: not the firmware's fault
+            if not (verdict.error == "wokwi_error" and any(t in verdict.raw_reason for t in TRANSIENT)):
+                break
         self.store.record_run(project.name, "test", sim_ms=verdict.sim_ms, passed=verdict.passed,
                               reason=f"{test['name']}: {verdict.reason}")
         result = {"name": test["name"], **verdict.as_dict()}

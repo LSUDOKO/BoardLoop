@@ -149,6 +149,11 @@ def main(argv):
     serial_log = opt(argv, "--serial-log-file")
     diagram_file = opt(argv, "--diagram-file", "diagram.json")
     shot_part, shot_file = opt(argv, "--screenshot-part"), opt(argv, "--screenshot-file", "screenshot.png")
+    flaky = os.environ.get("FAKE_WOKWI_FLAKY_FILE")
+    if flaky and not Path(flaky).exists():      # fail the first run only, like a network blip
+        Path(flaky).write_text("1")
+        print("Error: Error connecting to wss://wokwi.com/api/ws/beta: socket hang up", file=sys.stderr)
+        return 1
     if token == "wok_bad":
         print("API Error: Unauthorized", file=sys.stderr)
         return 1
