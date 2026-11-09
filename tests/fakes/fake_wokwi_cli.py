@@ -49,7 +49,7 @@ class Model:
         self.src, self.diagram = src, diagram
         self.controls = []          # (t, part, name, value)
         self.boot_ms = 400
-        if "THRESHOLD_C" in src and "DHTesp" in src:
+        if "THRESHOLD_C" in src and "DHT" in src:
             self.kind = "thermostat"
         elif "BUTTON_PIN" in src and "LED_PIN" in src:
             self.kind = "blink"
@@ -71,7 +71,7 @@ class Model:
             attrs = self.part("wokwi-dht22").get("attrs", {})
             temp = float(attrs.get("temperature", "24"))
             th = float(re.search(r"THRESHOLD_C = ([\d.]+)", self.src).group(1))
-            m = re.search(r"data\.temperature\s*(>=|<=|>|<)\s*THRESHOLD_C", self.src)
+            m = re.search(r"(?:data\.temperature|\bt)\s*(>=|<=|>|<)\s*THRESHOLD_C", self.src)
             op = m.group(1) if m else ">"
             return {">": temp > th, "<": temp < th, ">=": temp >= th, "<=": temp <= th}[op]
         if self.kind == "blink":
@@ -164,19 +164,25 @@ def main(argv):
 
     printed = []
     log = []
+    glue = []   # like the real CLI: the newline after a wait-serial match is swallowed
 
     def emit_until(t):
         for when, line in model.lines(t):
             if (when, line) not in printed and when <= t:
                 printed.append((when, line))
-                sys.stdout.write(line + "\n")
-                log.append(line)
+                if glue and glue[-1] == (when, line):
+                    sys.stdout.write(line)
+                    log.append(line + "\x00")       # marker: next line glues on
+                else:
+                    sys.stdout.write(line + "\n")
+                    log.append(line)
                 if fail_text and fail_text in line:
                     raise Fail(f'Unexpected text found: "{fail_text}"')
 
     def finish(code):
         if serial_log:
-            Path(serial_log).write_text("\n".join(log) + ("\n" if log else ""))
+            text = "\n".join(log) + ("\n" if log else "")
+            Path(serial_log).write_text(text.replace("\x00\n", ""))
         return code
 
     try:
@@ -192,6 +198,7 @@ def main(argv):
                         emit_until(timeout)
                         raise Timeout()
                     t = cursor = events[0][0]
+                    glue.append(events[0])
                     emit_until(t)
                     cursor = t + 1
                     print(f'[{name}] Expected text matched: "{val}"')

@@ -118,3 +118,12 @@ def test_real_timeout_and_fail_text_and_token():
     assert run("real_timeout", expect_text="NEVER").reason == "expected text never appeared: NEVER"
     assert run("real_fail_text").reason == "fail text seen: LED=OFF"
     assert run("real_token_missing").error == "token_missing"
+
+
+def test_glued_lines_after_wait_serial_are_split():
+    log = "rst:0x1\nBOOT OKERROR: DHT TIMEOUT\nT=35.0 H=50.0 LED=ONT=35.0 H=50.0 LED=ON\n"
+    tail = simulator.serial_tail(log, waits=["BOOT OK", "LED=ON"])
+    assert tail == ["rst:0x1", "BOOT OK", "ERROR: DHT TIMEOUT", "T=35.0 H=50.0 LED=ON", "T=35.0 H=50.0 LED=ON"]
+    r = simulator.classify(1, "", 'Error: Unexpected text found: "ERROR:"', timeout_ms=1,
+                           serial=log, waits=["BOOT OK", "LED=ON"])
+    assert r.reason == "fail text seen: ERROR: DHT TIMEOUT"

@@ -65,8 +65,22 @@ def build_argv(cli: list[str], project_dir: Path, *, timeout_ms: int, serial_log
     return argv
 
 
-def serial_tail(log_text: str, n: int = SERIAL_TAIL) -> list[str]:
+def _unglue(line: str, waits: list[str]) -> list[str]:
+    """wokwi-cli drops the newline right after text a ``wait-serial`` step matched (its scenario
+    log line takes the newline's place), so "BOOT OK" and the next line arrive glued together.
+    Split them again at the end of the first waited-for text found mid-line."""
+    for w in waits:
+        i = line.find(w) if w else -1
+        if i >= 0 and i + len(w) < len(line):
+            head, rest = line[:i + len(w)], line[i + len(w):]
+            return [head, *_unglue(rest, waits)]
+    return [line]
+
+
+def serial_tail(log_text: str, n: int = SERIAL_TAIL, waits: list[str] | None = None) -> list[str]:
     lines = [ln.rstrip("\r") for ln in strip_ansi(log_text).splitlines() if ln.strip()]
+    if waits:
+        lines = [part for ln in lines for part in _unglue(ln, waits) if part.strip()]
     return [ln[:200] for ln in lines[-n:]]
 
 
@@ -87,7 +101,7 @@ def classify(code: int | None, stdout: str, stderr: str, *, timeout_ms: int, exp
     """
     out, err = strip_ansi(stdout), strip_ansi(stderr)
     both = out + "\n" + err
-    tail = serial_tail(serial or out)
+    tail = serial_tail(serial or out, waits=waits)
     nanos = NANOS_RE.findall(both)
     sim_ms = int(int(nanos[-1]) / 1_000_000) if nanos else timeout_ms
 
