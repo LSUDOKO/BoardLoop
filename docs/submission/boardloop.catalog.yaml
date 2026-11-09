@@ -15,6 +15,7 @@ version: "0.1.0"
 image: https://raw.githubusercontent.com/LSUDOKO/BoardLoop/<SHA>/assets/banner.png
 screenshots:
   - https://raw.githubusercontent.com/LSUDOKO/BoardLoop/<SHA>/assets/verify-result.png
+  - https://raw.githubusercontent.com/LSUDOKO/BoardLoop/<SHA>/assets/wokwi-live.png
 platforms: []
 capabilities:
   provides_tools: [mcu_doctor, mcu_project_new, mcu_project_info, mcu_libraries, mcu_compile, mcu_simulate, mcu_test, mcu_verify, mcu_ports, mcu_upload, mcu_serial_read, mcu_serial_write, mcu_wiring_check, mcu_export]

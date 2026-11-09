@@ -60,6 +60,15 @@ This exact sequence runs in CI against the fake tools
 ([`tests/test_tools.py::test_the_demo_loop_fixes_the_buggy_sample`](tests/test_tools.py)) and on
 the real toolchain ([`tests/test_real.py`](tests/test_real.py)).
 
+### Watch it run live on wokwi.com
+
+`mcu_export` writes the sketch, `diagram.json` and `libraries.txt` for the browser editor. Paste
+them into a new project on [wokwi.com](https://wokwi.com/projects/new/esp32) and press play to
+watch the same circuit BoardLoop tested: here the DHT22 is at 35 °C, the OLED shows the alert,
+the LED is lit and the serial monitor streams the lines the tests check.
+
+![The thermostat running live on wokwi.com](assets/wokwi-live.png)
+
 ## Tools
 
 | Tool | What it does | Approval |
