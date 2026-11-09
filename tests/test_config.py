@@ -9,20 +9,18 @@ def test_defaults(tmp_path):
     assert s.workspace_dir == tmp_path / "projects"
     assert s.default_board == "esp32"
     assert (s.sim_timeout_ms, s.compile_budget, s.test_budget) == (6000, 3, 5)
-    assert s.enable_real_board is False
 
 
 def test_values_are_clamped_and_parsed(tmp_path):
     s = config.Settings.from_dict(
         {"sim_timeout_ms": "999999", "compile_budget": "0", "wokwi_minutes_limit": "200",
-         "default_board": "nonsense", "enable_real_board": "yes", "workspace_dir": str(tmp_path / "ws")},
+         "default_board": "nonsense", "workspace_dir": str(tmp_path / "ws")},
         tmp_path,
     )
     assert s.sim_timeout_ms == config.MAX_SIM_TIMEOUT_MS
     assert s.compile_budget == 1
     assert s.wokwi_minutes_limit == 200.0
     assert s.default_board == "esp32"
-    assert s.enable_real_board is True
     assert s.workspace_dir == tmp_path / "ws"
 
 

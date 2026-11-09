@@ -59,14 +59,6 @@ def _float(value: Any, default: float, lo: float, hi: float) -> float:
     return max(lo, min(hi, n))
 
 
-def _bool(value: Any, default: bool) -> bool:
-    if isinstance(value, bool):
-        return value
-    if isinstance(value, str):
-        return value.strip().lower() in {"1", "true", "yes", "on"}
-    return default
-
-
 @dataclass(frozen=True)
 class Settings:
     """Validated plugin settings. Build it with :meth:`from_getter`."""
@@ -81,7 +73,6 @@ class Settings:
     test_budget: int = 5
     arduino_cli_path: str = ""
     wokwi_cli_path: str = ""
-    enable_real_board: bool = False
     extra: dict = field(default_factory=dict)
 
     @property
@@ -108,7 +99,6 @@ class Settings:
             test_budget=_int(get("test_budget", 5), 5, 1, 20),
             arduino_cli_path=str(get("arduino_cli_path", "") or "").strip(),
             wokwi_cli_path=str(get("wokwi_cli_path", "") or "").strip(),
-            enable_real_board=_bool(get("enable_real_board", False), False),
         )
 
     @classmethod
