@@ -113,6 +113,8 @@ def _tool(name: str) -> Callable:
                            "This is a BoardLoop bug; the error was logged. Try mcu_doctor.")
             return config.redact(json.dumps(out, ensure_ascii=False, default=str), token)
         handler.tool_name = name  # type: ignore[attr-defined]
+        # Hermes inspects the signature to decide which context kwargs to pass; show the real one.
+        del handler.__wrapped__  # type: ignore[attr-defined]
         return handler
     return deco
 

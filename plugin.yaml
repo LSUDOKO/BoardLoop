@@ -1,0 +1,40 @@
+name: boardloop
+version: 0.1.0
+manifest_version: 2
+description: Hermes writes ESP32/Arduino code, compiles it, tests it in the Wokwi simulator (sensors, pins, serial, OLED screenshots), fixes it within bounded attempts, and flashes real boards with approval
+author: Arpit Singh (LSUDOKO)
+license: MIT
+homepage: https://github.com/LSUDOKO/BoardLoop
+tags: [hardware, esp32, arduino, embedded, simulation, wokwi, iot, testing]
+requires_hermes: ">=0.23.0"
+python_dependencies:
+  - "pyyaml>=6.0,<7"
+  - "pyserial>=3.5,<4"
+provides_tools:
+  - mcu_doctor
+  - mcu_project_new
+  - mcu_project_info
+  - mcu_libraries
+  - mcu_compile
+  - mcu_simulate
+  - mcu_test
+  - mcu_verify
+  - mcu_ports
+  - mcu_upload
+  - mcu_serial_read
+  - mcu_serial_write
+  - mcu_wiring_check
+  - mcu_export
+provides_hooks:
+  - pre_tool_call
+config_schema:
+  workspace_dir:       {type: str,    default: "", label: "Projects folder", description: "Leave empty to use Hermes's plugin data folder (plugin-data/boardloop/projects)"}
+  default_board:       {type: str,    default: "esp32", choices: [esp32, esp32s3, esp32c3, uno, nano, mega], label: "Default board"}
+  wokwi_token:         {type: secret, env: WOKWI_CLI_TOKEN, label: "Wokwi CI token", description: "From https://wokwi.com/dashboard/ci (starts with wok_). Passed only to wokwi-cli."}
+  wokwi_minutes_limit: {type: int,    default: 50, label: "Wokwi minutes per 30 days", description: "Your Wokwi plan's limit; the free plan is 50"}
+  sim_timeout_ms:      {type: int,    default: 6000, label: "Default simulation timeout (ms)", description: "Max 20000"}
+  compile_timeout_s:   {type: int,    default: 300, label: "Compile timeout (s)", description: "The first ESP32 build can take a few minutes"}
+  compile_budget:      {type: int,    default: 3, label: "Compile fix attempts", description: "mcu_verify stops with needs_human after this many"}
+  test_budget:         {type: int,    default: 5, label: "Behaviour fix attempts", description: "mcu_verify stops with needs_human after this many"}
+  arduino_cli_path:    {type: str,    default: "", label: "arduino-cli path (optional)"}
+  wokwi_cli_path:      {type: str,    default: "", label: "wokwi-cli path (optional)"}
