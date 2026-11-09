@@ -2,6 +2,6 @@
   "name": "boardloop",
   "label": "BoardLoop",
   "description": "Workbench data for the BoardLoop Desktop pane: projects, latest test results, screenshots, history and Wokwi minutes",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "api": "plugin_api.py"
 }

@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.0 (2026-11-10)
+
+- **Real-board test mode:** `mcu_test target="real"` flashes the connected board (approval
+  required, also when Hermes runs unattended), resets it, captures serial output and checks each
+  test's serial expectations; simulated-input tests are reported as skipped, pins as unchecked.
+- **Desktop Workbench pane** backed by `dashboard/plugin_api.py`: Wokwi minutes, projects, last
+  verify, latest simulated and real-board results with screenshots, history; live refresh via a
+  `results.updated` plugin event.
+- **Reliability:** one automatic retry when the Wokwi connection drops; serial reads can reset
+  the board and stop as soon as every expected line has appeared.
+- Desktop half covered by React render tests in CI.
+
 ## 0.1.0 (2026-11-11)
 
 First release, for the Hermes Agent Plugin Hackathon.
