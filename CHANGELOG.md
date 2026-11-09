@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1 (2026-11-10)
+
+- **Brand:** logo, mark, banner, social and Open Graph images (`assets/brand/build.py`).
+- **Website:** [boardloop.pages.dev](https://boardloop.pages.dev), with a replay of a real Hermes
+  session next to real Wokwi captures of the board.
+- **Demo:** `assets/demo.gif` and `assets/demo.mp4` recorded from that replay; README rebranded.
+- No plugin code changes since 0.2.0.
+
 ## 0.2.0 (2026-11-10)
 
 - **Real-board test mode:** `mcu_test target="real"` flashes the connected board (approval
