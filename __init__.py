@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 
 SKILL_PATH = Path(__file__).resolve().parent / "skills" / "boardloop" / "SKILL.md"
 SERIAL_TOOLS = {"mcu_serial_read", "mcu_serial_write"}

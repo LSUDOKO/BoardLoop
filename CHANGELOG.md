@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.2 (2026-11-10)
+
+- **Demo video:** [youtu.be/rmpxsMKtOE4](https://youtu.be/rmpxsMKtOE4), cut from an unedited Hermes
+  session (compile error, fix, failing test, fix, verified 3/3, approval prompt).
+- **README:** "Proof from a real run" gallery (`assets/film/`), with each result read from that
+  run's folder.
+- No plugin code changes since 0.2.0.
+
 ## 0.2.1 (2026-11-10)
 
 - **Brand:** logo, mark, banner, social and Open Graph images (`assets/brand/build.py`).

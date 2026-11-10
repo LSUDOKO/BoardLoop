@@ -5,7 +5,8 @@
 <p align="center">
   <strong>Hermes doesn't just write hardware code. It proves it works.</strong><br>
   <a href="https://boardloop.pages.dev">Website</a> ·
-  <a href="#see-it-work">Demo</a> ·
+  <a href="https://youtu.be/rmpxsMKtOE4">Demo video</a> ·
+  <a href="#proof-from-a-real-run">Proof</a> ·
   <a href="#quick-start">Install</a> ·
   <a href="docs/EVALUATION.md">Evaluation guide</a> ·
   <a href="https://github.com/LSUDOKO/BoardLoop/releases">Releases</a>
@@ -56,6 +57,35 @@ EmbedGenius ones (3 compile fixes, 5 behaviour fixes). In simulation it works fo
 hardware. With a board, it also works on the real thing.
 
 ## See it work
+
+<p align="center">
+  <a href="https://youtu.be/rmpxsMKtOE4"><img src="assets/film/video-thumbnail.png" alt="Watch the BoardLoop demo video on YouTube" width="100%"></a><br>
+  <a href="https://youtu.be/rmpxsMKtOE4"><strong>▶ Watch the demo (86 s)</strong></a>: the real Hermes TUI on the left, the same firmware on
+  Wokwi on the right. Long waits are sped up and labelled; nothing else is edited.
+</p>
+
+### Proof from a real run
+
+Every frame below comes from one unedited Hermes session (`longcat-2.5:free`, Hermes 0.23.0), with
+results read from that run's folder (`plugin-data/boardloop/runs/thermostat-buggy/`). Prompt:
+*"Create thermostat-buggy from the demo-thermostat-buggy template, run mcu_verify first, fix only
+what it reports, and run mcu_verify again after each fix until it is verified."*
+
+| 1. `mcu_verify`: the real compiler fails (4 errors) | 2. Hermes adds the missing `;` |
+|---|---|
+| ![compile failed](assets/film/1-compile-error.png) | ![semicolon fix](assets/film/2-semicolon-fix.png) |
+| **3. It compiles, but the hot-room test fails**: `expected serial 'LED=ON' not seen`, serial `T=35.0 H=50.0 LED=OFF` | **4. Hermes flips the reversed comparison** (`<` → `>`) |
+| ![test failed](assets/film/3-test-fail.png) | ![comparison fix](assets/film/4-comparison-fix.png) |
+| **5. Verified 3/3**, with the OLED screenshots the run saved | **6. `mcu_upload` stops at Hermes's approval prompt** (no board connected; nothing was flashed) |
+| ![verified](assets/film/5-verified.png) | ![approval prompt](assets/film/6-approval.png) |
+
+The rest of the toolset, from the same Hermes install:
+
+| `/mcu doctor` | `mcu_project_info` | `/mcu` minutes meter |
+|---|---|---|
+| ![doctor](assets/film/desktop-1-doctor.png) | ![project info](assets/film/desktop-2-circuit.png) | ![minutes](assets/film/desktop-3-minutes.png) |
+
+### Replay
 
 A real Hermes session, replayed: the agent's tool calls on the left, the simulated ESP32 on the
 right. It fixes both planted bugs, rides out a dropped Wokwi connection, and stops when all three
