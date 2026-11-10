@@ -60,7 +60,7 @@ hardware. With a board, it also works on the real thing.
 
 <p align="center">
   <a href="https://youtu.be/rmpxsMKtOE4"><img src="assets/film/video-thumbnail.png" alt="Watch the BoardLoop demo video on YouTube" width="100%"></a><br>
-  <a href="https://youtu.be/rmpxsMKtOE4"><strong>▶ Watch the demo (86 s)</strong></a>: the real Hermes TUI on the left, the same firmware on
+  <a href="https://youtu.be/rmpxsMKtOE4"><strong>▶ Watch the demo (2:27)</strong></a>: every feature step by step, with the real Hermes TUI on the left and the same firmware on
   Wokwi on the right. Long waits are sped up and labelled; nothing else is edited.
 </p>
 
