@@ -17,6 +17,7 @@ Research context: the best model passes only 55.6% of embedded tasks without har
 
 | | |
 |---|---|
+| **Demo on X (86 s)** | **https://x.com/_arpit1/status/2120135607280439781**: the hackathon demo, one real Hermes run |
 | **Demo video (2:27)** | **https://youtu.be/rmpxsMKtOE4**: every feature step by step, real Hermes sessions next to the same firmware running on Wokwi |
 | Repo | https://github.com/LSUDOKO/BoardLoop, pinned at [`2bbe65c`](https://github.com/LSUDOKO/BoardLoop/tree/2bbe65cfa46281d293c6e94c762449862cb7a0fb) (plugin version 0.2.2, [release notes](https://github.com/LSUDOKO/BoardLoop/releases/tag/v0.2.2)) |
 | Website | https://boardloop.pages.dev |
