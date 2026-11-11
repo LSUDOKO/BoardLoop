@@ -138,3 +138,10 @@ def test_transient_network_error_is_retried_once(env, monkeypatch, tmp_path):
     out = runner.run_tests(p, p.tests[:1])
     assert out["passed"] == 1, out
     assert (tmp_path / "flaky").exists()
+
+
+def test_wokwi_env_has_token_and_no_other_secrets(env, monkeypatch):
+    _, runner, _ = env
+    monkeypatch.setenv("OPENROUTER_API_KEY", "sk-or-secret")
+    child = runner._env()
+    assert child["WOKWI_CLI_TOKEN"] == TOKEN and "OPENROUTER_API_KEY" not in child

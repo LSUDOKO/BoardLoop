@@ -254,6 +254,8 @@ any `diagram.json`; sensor values are part attributes and live inputs are Wokwi 
   folder. Run folders older than 24 hours are deleted automatically.
 - **Secrets:** the Wokwi token is read only through Hermes's secret scope, passed only in
   wokwi-cli's environment, and redacted from every tool result ([`config.py`](config.py)).
+  arduino-cli and wokwi-cli get a minimal allow-listed environment, never Hermes's own, so
+  provider API keys never reach them ([`procs.py`](procs.py)).
 
 Safety measures in the code, each with a test: path traversal and symlink escapes blocked; strict
 patterns for project names, ports and library names; `yaml.safe_load` only; text read from serial

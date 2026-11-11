@@ -47,3 +47,24 @@ def test_output_is_truncated_to_tail():
 def test_rejects_shell_strings():
     with pytest.raises(ValueError):
         procs.run("echo hi")  # type: ignore[arg-type]
+
+
+ENV_DUMP = "import json, os; print(json.dumps(dict(os.environ)))"
+
+
+def test_children_do_not_inherit_secrets(monkeypatch):
+    monkeypatch.setenv("OPENAI_API_KEY", "sk-secret")
+    monkeypatch.setenv("WOKWI_CLI_TOKEN", "wok_secret")
+    monkeypatch.setenv("ARDUINO_DIRECTORIES_DATA", "/tmp/a15")
+    monkeypatch.setenv("LANG", "C.UTF-8")
+    import json
+    env = json.loads(procs.run([sys.executable, "-c", ENV_DUMP]).stdout)
+    assert "OPENAI_API_KEY" not in env and "WOKWI_CLI_TOKEN" not in env
+    assert env["ARDUINO_DIRECTORIES_DATA"] == "/tmp/a15" and env["LANG"] == "C.UTF-8"
+
+
+def test_minimal_env_extra_only_where_given(monkeypatch):
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant")
+    env = procs.minimal_env({"WOKWI_CLI_TOKEN": "wok_t"})
+    assert env["WOKWI_CLI_TOKEN"] == "wok_t" and "ANTHROPIC_API_KEY" not in env
+    assert "WOKWI_CLI_TOKEN" not in procs.minimal_env()

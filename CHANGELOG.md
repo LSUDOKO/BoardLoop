@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.3 (2026-11-11)
+
+- **Security:** arduino-cli and wokwi-cli no longer inherit Hermes's environment, which holds
+  every provider API key. `procs.run` now gives each child an allow-list (`procs.minimal_env`:
+  PATH, HOME, locale, temp dirs, proxy settings, Windows system folders and `ARDUINO_*`
+  configuration). `WOKWI_CLI_TOKEN` is added for wokwi-cli only. Requested in catalog review.
+
 ## 0.2.2 (2026-11-10)
 
 - **Demo video:** [youtu.be/rmpxsMKtOE4](https://youtu.be/rmpxsMKtOE4), cut from an unedited Hermes

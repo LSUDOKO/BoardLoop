@@ -9,7 +9,6 @@ from __future__ import annotations
 import copy
 from concurrent.futures import ThreadPoolExecutor
 import json
-import os
 import shutil
 import time
 import tomllib
@@ -37,11 +36,8 @@ class Runner:
 
     # ------------------------------------------------------------------------------------------
     def _env(self) -> dict[str, str]:
-        env = dict(os.environ)
-        env.pop("WOKWI_CLI_TOKEN", None)
-        if self.token:
-            env["WOKWI_CLI_TOKEN"] = self.token
-        return env
+        # minimal allow-list plus the token; WOKWI_CLI_TOKEN goes to wokwi-cli and nothing else
+        return procs.minimal_env({"WOKWI_CLI_TOKEN": self.token} if self.token else None)
 
     def _run(self, argv: list[str], cwd: Path, timeout_ms: int) -> procs.ProcResult:
         # ESP32 simulation in the Wokwi cloud runs several times slower than real time (measured:

@@ -10,6 +10,27 @@ from pathlib import Path
 
 MAX_CAPTURE = 200_000  # bytes kept per stream before parsing
 
+# Children never inherit Hermes's environment (it holds every provider API key). They get only
+# what arduino-cli and wokwi-cli need to run; callers add anything else explicitly (for example
+# WOKWI_CLI_TOKEN, for wokwi-cli only).
+PASS_ENV = (
+    "PATH", "HOME", "LANG", "LANGUAGE", "LC_ALL", "LC_CTYPE", "TMPDIR", "TMP", "TEMP", "TZ",
+    # proxies, so library/core downloads and the Wokwi websocket work behind a proxy
+    "HTTP_PROXY", "HTTPS_PROXY", "NO_PROXY", "http_proxy", "https_proxy", "no_proxy",
+    # Windows: needed to start processes and locate per-user data folders
+    "SYSTEMROOT", "SYSTEMDRIVE", "WINDIR", "COMSPEC", "PATHEXT", "USERPROFILE", "APPDATA",
+    "LOCALAPPDATA", "PROGRAMDATA", "PROGRAMFILES", "PROGRAMFILES(X86)",
+)
+PASS_PREFIXES = ("ARDUINO_",)  # arduino-cli configuration (ARDUINO_DIRECTORIES_DATA, ...)
+
+
+def minimal_env(extra: dict[str, str] | None = None) -> dict[str, str]:
+    """The environment every child process gets: an allow-list, never ``os.environ`` itself."""
+    env = {k: v for k, v in os.environ.items()
+           if k.upper() in PASS_ENV or k in PASS_ENV or k.startswith(PASS_PREFIXES)}
+    env.update(extra or {})
+    return env
+
 
 @dataclass
 class ProcResult:
@@ -52,7 +73,8 @@ def _kill_tree(proc: subprocess.Popen) -> None:
 def run(argv: list[str], *, cwd: Path | str | None = None, timeout: float = 60,
         env: dict[str, str] | None = None) -> ProcResult:
     """Run ``argv`` (a list, never a shell string) and return its result. Never raises for
-    process failures: a missing program gives ``not_found``, an overrun gives ``timed_out``."""
+    process failures: a missing program gives ``not_found``, an overrun gives ``timed_out``.
+    ``env`` defaults to :func:`minimal_env`; pass one built from it, never ``os.environ``."""
     if not isinstance(argv, list) or not argv or not all(isinstance(a, str) for a in argv):
         raise ValueError("argv must be a non-empty list of strings")
     kwargs: dict = {}
@@ -60,6 +82,8 @@ def run(argv: list[str], *, cwd: Path | str | None = None, timeout: float = 60,
         kwargs["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP  # type: ignore[attr-defined]
     else:
         kwargs["start_new_session"] = True
+    if env is None:
+        env = minimal_env()
     started = time.monotonic()
     try:
         proc = subprocess.Popen(

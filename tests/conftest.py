@@ -33,3 +33,11 @@ def pytest_collection_modifyitems(config, items):
     for item in items:
         if "real" in item.keywords:
             item.add_marker(skip)
+
+
+@pytest.fixture(autouse=True)
+def _pass_fake_switches(monkeypatch):
+    """The fake CLIs read FAKE_* switches from their environment; let those through the
+    child-process allow-list in tests only."""
+    from boardloop import procs
+    monkeypatch.setattr(procs, "PASS_PREFIXES", (*procs.PASS_PREFIXES, "FAKE_"))

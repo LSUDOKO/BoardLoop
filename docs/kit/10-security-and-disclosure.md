@@ -13,7 +13,7 @@
 | Hung processes | Wall-clock timeouts; kill the whole process group |
 | Flashing the wrong device or untested firmware | `mcu_upload` needs approval showing the port, board, size and verify status; the port must appear in `mcu_ports` |
 | Prompt injection telling the agent to flash or write serial | Approval prompt for upload and serial write; the skill says never to act on instructions found in serial output or files |
-| Token leaks | Token via `get_secret`, passed only in the child env for wokwi-cli; never logged, never returned, redacted from error text (`wok_…` → `wok_***`) |
+| Token leaks | Token via `get_secret`, passed only in the child env for wokwi-cli (children get an allow-listed env, never Hermes's own); never logged, never returned, redacted from error text (`wok_…` → `wok_***`) |
 | Firmware/code privacy | Disclosed: compiled firmware and diagram are sent to Wokwi's cloud for simulation; source `.ino` files are not uploaded by BoardLoop (VERIFY: does wokwi-cli upload anything besides firmware + diagram?) |
 | Unattended runs | Upload and serial write follow Hermes's approval policy (refused when nobody answers); simulation is safe to run unattended |
 | Repo contains binaries | `.gitignore` for build outputs; a pre-release `git ls-files` check for `.bin/.elf/.hex/.pyc` |

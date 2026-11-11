@@ -1,5 +1,5 @@
 name: boardloop
-version: 0.2.2
+version: 0.2.3
 manifest_version: 2
 description: Hermes writes ESP32/Arduino code, compiles it, tests it in the Wokwi simulator (sensors, pins, serial, OLED screenshots), fixes it within bounded attempts, and flashes real boards with approval
 author: Arpit Singh (LSUDOKO)
