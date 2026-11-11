@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/2bbe65cfa46281d293c6e94c762449862cb7a0fb/assets/banner.png" alt="BoardLoop: Hermes doesn't just write hardware code, it proves it works" width="100%">
+  <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/25987e5272773bbda95475cd537b47cc852a4452/assets/banner.png" alt="BoardLoop: Hermes doesn't just write hardware code, it proves it works" width="100%">
 </p>
 
 ## What does this PR do?
@@ -19,11 +19,11 @@ Research context: the best model passes only 55.6% of embedded tasks without har
 |---|---|
 | **Demo on X (86 s)** | **https://x.com/_arpit1/status/2120135607280439781**: the hackathon demo, one real Hermes run |
 | **Demo video (2:27)** | **https://youtu.be/rmpxsMKtOE4**: every feature step by step, real Hermes sessions next to the same firmware running on Wokwi |
-| Repo | https://github.com/LSUDOKO/BoardLoop, pinned at [`2bbe65c`](https://github.com/LSUDOKO/BoardLoop/tree/2bbe65cfa46281d293c6e94c762449862cb7a0fb) (plugin version 0.2.2, [release notes](https://github.com/LSUDOKO/BoardLoop/releases/tag/v0.2.2)) |
+| Repo | https://github.com/LSUDOKO/BoardLoop, pinned at [`25987e5`](https://github.com/LSUDOKO/BoardLoop/tree/25987e5272773bbda95475cd537b47cc852a4452) (plugin version 0.2.3, [changelog](https://github.com/LSUDOKO/BoardLoop/blob/25987e5272773bbda95475cd537b47cc852a4452/CHANGELOG.md)) |
 | Website | https://boardloop.pages.dev |
-| Reviewer guide | [`docs/EVALUATION.md`](https://github.com/LSUDOKO/BoardLoop/blob/2bbe65cfa46281d293c6e94c762449862cb7a0fb/docs/EVALUATION.md): every claim mapped to the code and test that backs it |
+| Reviewer guide | [`docs/EVALUATION.md`](https://github.com/LSUDOKO/BoardLoop/blob/25987e5272773bbda95475cd537b47cc852a4452/docs/EVALUATION.md): every claim mapped to the code and test that backs it |
 
-[![Watch the demo](https://raw.githubusercontent.com/LSUDOKO/BoardLoop/2bbe65cfa46281d293c6e94c762449862cb7a0fb/assets/film/video-thumbnail.png)](https://youtu.be/rmpxsMKtOE4)
+[![Watch the demo](https://raw.githubusercontent.com/LSUDOKO/BoardLoop/25987e5272773bbda95475cd537b47cc852a4452/assets/film/video-thumbnail.png)](https://youtu.be/rmpxsMKtOE4)
 
 ## Proof from a real run
 
@@ -31,17 +31,17 @@ All six frames come from **one unedited Hermes session** (Hermes 0.23.0, `longca
 
 | 1. `mcu_verify`: arduino-cli fails with 4 errors | 2. Hermes adds the missing `;` |
 |---|---|
-| <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/2bbe65cfa46281d293c6e94c762449862cb7a0fb/assets/film/1-compile-error.png" width="420"> | <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/2bbe65cfa46281d293c6e94c762449862cb7a0fb/assets/film/2-semicolon-fix.png" width="420"> |
+| <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/25987e5272773bbda95475cd537b47cc852a4452/assets/film/1-compile-error.png" width="420"> | <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/25987e5272773bbda95475cd537b47cc852a4452/assets/film/2-semicolon-fix.png" width="420"> |
 | **3. It compiles, but the hot-room test fails:** DHT22 set to 35 °C, `expected serial 'LED=ON' not seen`, serial `T=35.0 H=50.0 LED=OFF` | **4. Hermes reads the serial log and flips `<` to `>`** |
-| <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/2bbe65cfa46281d293c6e94c762449862cb7a0fb/assets/film/3-test-fail.png" width="420"> | <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/2bbe65cfa46281d293c6e94c762449862cb7a0fb/assets/film/4-comparison-fix.png" width="420"> |
+| <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/25987e5272773bbda95475cd537b47cc852a4452/assets/film/3-test-fail.png" width="420"> | <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/25987e5272773bbda95475cd537b47cc852a4452/assets/film/4-comparison-fix.png" width="420"> |
 | **5. Verified 3/3** (hot, cool, and the exactly-30 °C edge case), with the OLED screenshots the run saved | **6. `mcu_upload` stops at Hermes's approval prompt.** It shows firmware size and test status. No board was connected and nothing was flashed. |
-| <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/2bbe65cfa46281d293c6e94c762449862cb7a0fb/assets/film/5-verified.png" width="420"> | <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/2bbe65cfa46281d293c6e94c762449862cb7a0fb/assets/film/6-approval.png" width="420"> |
+| <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/25987e5272773bbda95475cd537b47cc852a4452/assets/film/5-verified.png" width="420"> | <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/25987e5272773bbda95475cd537b47cc852a4452/assets/film/6-approval.png" width="420"> |
 
 The rest of the toolset, from the same Hermes install:
 
 | `/mcu doctor` (token shown only as "set") | `mcu_project_info` (parts and pins) | `/mcu` Wokwi minutes meter |
 |---|---|---|
-| <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/2bbe65cfa46281d293c6e94c762449862cb7a0fb/assets/film/desktop-1-doctor.png" width="280"> | <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/2bbe65cfa46281d293c6e94c762449862cb7a0fb/assets/film/desktop-2-circuit.png" width="280"> | <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/2bbe65cfa46281d293c6e94c762449862cb7a0fb/assets/film/desktop-3-minutes.png" width="280"> |
+| <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/25987e5272773bbda95475cd537b47cc852a4452/assets/film/desktop-1-doctor.png" width="280"> | <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/25987e5272773bbda95475cd537b47cc852a4452/assets/film/desktop-2-circuit.png" width="280"> | <img src="https://raw.githubusercontent.com/LSUDOKO/BoardLoop/25987e5272773bbda95475cd537b47cc852a4452/assets/film/desktop-3-minutes.png" width="280"> |
 
 ## Related Issue
 
@@ -53,7 +53,7 @@ None. This adds a new catalog entry.
 
 ## Changes Made
 
-- `plugin-catalog/boardloop.yaml`: the new entry. It is pinned to the full 40-character SHA `2bbe65cfa46281d293c6e94c762449862cb7a0fb`, with the disclosure in `description`. Its `capabilities` match what `register()` declares at that commit: 14 tools and the `pre_tool_call` hook. `requires_hermes: ">=0.23.0"`, the same floor as `plugin.yaml`. `version: "0.2.2"`. Every image and docs URL is pinned to the same SHA.
+- `plugin-catalog/boardloop.yaml`: the new entry. It is pinned to the full 40-character SHA `25987e5272773bbda95475cd537b47cc852a4452`, with the disclosure in `description`. Its `capabilities` match what `register()` declares at that commit: 14 tools and the `pre_tool_call` hook. `requires_hermes: ">=0.23.0"`, the same floor as `plugin.yaml`. `version: "0.2.3"`. Every image and docs URL is pinned to the same SHA.
 
 ### Hermes surfaces used (public APIs only)
 
@@ -81,7 +81,7 @@ None. This adds a new catalog entry.
 
 1. `python3 scripts/validate_plugin_catalog.py plugin-catalog/boardloop.yaml` prints `OK: 1 file(s) valid`.
 2. At the pinned commit, `hermes plugins validate . --install-deps` passes. Output is under Screenshots / Logs below.
-3. At the pinned commit, `hermes plugins doctor . --ci` passes: `boardloop 0.2.2`, 14 tools and 1 hook registered.
+3. At the pinned commit, `hermes plugins doctor . --ci` passes: `boardloop 0.2.3`, 14 tools and 1 hook registered.
 4. Without network or toolchain, `python -m pytest -q` gives 187 passed and 3 skipped. The skipped ones are the real-toolchain tests, which run with `BOARDLOOP_REAL=1`. The desktop tests (`node --test`) give 4 passed. CI runs both on Ubuntu and macOS with Python 3.11 and 3.13.
 5. End to end:
    - `hermes plugins install boardloop`
@@ -101,7 +101,7 @@ None. This adds a new catalog entry.
 ## Screenshots / Logs
 
 <details>
-<summary><code>hermes plugins validate . --install-deps</code> at 2bbe65c</summary>
+<summary><code>hermes plugins validate . --install-deps</code> at 25987e5</summary>
 
 ```
 ✓ manifest — plugin.yaml parses
@@ -133,11 +133,11 @@ The one warning comes from `scripts/hermes_e2e.py`. It is a dev-only script, nev
 </details>
 
 <details>
-<summary><code>hermes plugins doctor . --ci</code> at 2bbe65c</summary>
+<summary><code>hermes plugins doctor . --ci</code> at 25987e5</summary>
 
 ```
 Plugin Doctor: BoardLoop
-  manifest: boardloop 0.2.2 (standalone)
+  manifest: boardloop 0.2.3 (standalone)
   OK: runtime discovery, manifest parsing, import, and registration passed
   registrations: 14 tool(s), 1 hook(s)
 ```
