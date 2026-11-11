@@ -68,3 +68,21 @@ def test_minimal_env_extra_only_where_given(monkeypatch):
     env = procs.minimal_env({"WOKWI_CLI_TOKEN": "wok_t"})
     assert env["WOKWI_CLI_TOKEN"] == "wok_t" and "ANTHROPIC_API_KEY" not in env
     assert "WOKWI_CLI_TOKEN" not in procs.minimal_env()
+
+
+def test_windows_tree_kill_gets_minimal_env(monkeypatch):
+    # the Windows timeout path spawns taskkill; it must get the allow-list too, not os.environ
+    monkeypatch.setenv("OPENAI_API_KEY", "sk-secret")
+    seen = {}
+
+    def fake_run(argv, **kwargs):
+        seen["argv"], seen["env"] = argv, kwargs.get("env")
+
+    class Proc:
+        pid = 4242
+
+    monkeypatch.setattr(procs.os, "name", "nt")
+    monkeypatch.setattr(procs.subprocess, "run", fake_run)
+    procs._kill_tree(Proc())
+    assert seen["argv"][0] == "taskkill"
+    assert seen["env"] is not None and "OPENAI_API_KEY" not in seen["env"]

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.4 (2026-11-11)
+
+- **Security:** the Windows timeout path (`taskkill`, in `procs._kill_tree`) now also gets the
+  `procs.minimal_env()` allow-list, so no child process BoardLoop starts inherits Hermes's
+  environment.
+
 ## 0.2.3 (2026-11-11)
 
 - **Security:** arduino-cli and wokwi-cli no longer inherit Hermes's environment, which holds
